@@ -562,30 +562,43 @@ button:active {
   background: var(--svc-bg);
   color: var(--svc-fg);
 }
-/* One colour family per line: teal, gold, rose, forest (trading sits on the dark one). */
+/*
+ * One brand-derived family per service, shared by the homepage cards and the
+ * /services stack: slate tint, orange tint, deep slate (proprietary trading),
+ * neutral grey and mid slate (research). Light and dark alternate so each card
+ * separates from the one before it; orange stays an accent.
+ */
 .svc-brokerage {
-  --svc-bg: oklch(0.92 0.04 200);
-  --svc-panel: oklch(0.42 0.08 210);
-  --svc-art-a: oklch(0.6 0.09 205);
-  --svc-art-b: oklch(0.84 0.06 200);
+  --svc-bg: oklch(0.93 0.022 283);
+  --svc-panel: var(--color-slate);
+  --svc-art-a: oklch(0.6 0.05 283);
+  --svc-art-b: oklch(0.84 0.03 283);
 }
 .svc-advisory {
-  --svc-bg: oklch(0.95 0.055 92);
-  --svc-panel: oklch(0.8 0.14 82);
-  --svc-art-a: oklch(0.9 0.1 90);
-  --svc-art-b: oklch(0.3 0.06 265);
+  --svc-bg: oklch(0.955 0.03 60);
+  --svc-panel: var(--color-signal);
+  --svc-art-a: oklch(0.87 0.08 58);
+  --svc-art-b: var(--color-slate-deep);
 }
 .svc-custody {
-  --svc-bg: oklch(0.93 0.035 15);
-  --svc-panel: oklch(0.6 0.13 20);
-  --svc-art-a: oklch(0.78 0.08 18);
-  --svc-art-b: oklch(0.36 0.08 20);
+  --svc-bg: oklch(0.945 0.005 286);
+  --svc-panel: oklch(0.56 0.035 283);
+  --svc-art-a: oklch(0.76 0.025 283);
+  --svc-art-b: var(--color-slate-deep);
 }
 .svc-trading {
-  --svc-bg: oklch(0.31 0.05 162);
+  --svc-bg: var(--color-slate-deep);
   --svc-fg: var(--color-on-slate);
-  --svc-panel: oklch(0.24 0.04 162);
-  --svc-art-a: oklch(0.45 0.07 162);
+  --svc-panel: oklch(0.24 0.035 282);
+  --svc-art-a: oklch(0.44 0.05 283);
+  --svc-art-b: var(--color-signal);
+}
+.svc-research {
+  --svc-bg: var(--color-slate);
+  --svc-fg: var(--color-on-slate);
+  --svc-panel: var(--color-slate-deep);
+  --svc-art-a: oklch(0.56 0.05 283);
+  --svc-art-b: var(--color-on-slate-muted);
 }
 .svc-link {
   display: grid;
@@ -650,19 +663,19 @@ button:active {
   .svc-grid {
     grid-template-columns: 1fr 1.9fr 1fr;
   }
-  .svc-brokerage {
+  .svc-card.svc-brokerage {
     grid-column: 1;
     grid-row: 1 / span 2;
   }
-  .svc-advisory {
+  .svc-card.svc-advisory {
     grid-column: 2;
     grid-row: 1;
   }
-  .svc-custody {
+  .svc-card.svc-custody {
     grid-column: 2;
     grid-row: 2;
   }
-  .svc-trading {
+  .svc-card.svc-trading {
     grid-column: 3;
     grid-row: 1 / span 2;
   }

@@ -6,7 +6,7 @@
   display: grid;
   gap: 2rem;
   border-radius: 1.5rem;
-  /* Colours come from the homepage service-card families (.svc-brokerage etc.). */
+  /* Colours come from the service families in globals.css (.svc-brokerage etc.). */
   background: var(--svc-bg, var(--color-mist));
   color: var(--svc-fg, var(--color-ink));
   padding: clamp(1.75rem, 1rem + 2.5vw, 3rem);
@@ -20,26 +20,13 @@
     overflow: clip;
   }
 }
-/* Two dark families for the stack, alongside the homepage's teal, gold and rose. */
-.svc-black {
-  --svc-bg: oklch(0.16 0.005 282);
-  --svc-fg: var(--color-on-slate);
-  --svc-panel: oklch(0.1 0 none);
-  --svc-art-a: oklch(0.3 0.01 282);
-  --svc-art-b: oklch(0.45 0.01 282);
-}
-.svc-blueblack {
-  --svc-bg: oklch(0.22 0.045 262);
-  --svc-fg: var(--color-on-slate);
-  --svc-panel: oklch(0.15 0.04 262);
-  --svc-art-a: oklch(0.4 0.07 258);
-  --svc-art-b: oklch(0.3 0.06 262);
-}
 .stack-card.is-dark :is(.text-ink, h2) { color: var(--color-on-slate); }
 .stack-card.is-dark :is(.text-muted, .text-on-slate-muted) { color: var(--color-on-slate-muted); }
 .stack-card-copy { display: flex; flex-direction: column; }
 .stack-card-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-signal-ink); }
 .stack-card.is-dark .stack-card-label { color: var(--color-signal); }
+/* Brand orange is only ~3:1 on mid slate; a lighter orange keeps small labels legible. */
+.stack-card.svc-research .stack-card-label { color: oklch(0.86 0.08 58); }
 
 /* Right side: the card's deep art panel with its illustration, and the list on a light tile over it. */
 .stack-card-art {

@@ -99,7 +99,7 @@ export default function ServicesPage() {
             </div>
           </section>
 
-          <section id="proprietary-trading" aria-labelledby="trading-title" className="stack-card svc-black is-dark on-dark">
+          <section id="proprietary-trading" aria-labelledby="trading-title" className="stack-card svc-trading is-dark on-dark">
             <div className="stack-card-copy">
               <h2 id="trading-title" className="text-h2">Trading</h2>
               <p className="mt-5 text-[1.0625rem] leading-relaxed text-on-slate-muted">
@@ -144,7 +144,7 @@ export default function ServicesPage() {
             </div>
           </section>
 
-          <section id="research" aria-labelledby="research-title" className="stack-card svc-blueblack is-dark on-dark">
+          <section id="research" aria-labelledby="research-title" className="stack-card svc-research is-dark on-dark">
             <div className="stack-card-copy">
               <h2 id="research-title" className="text-h2 text-ink">Research</h2>
               <p className="mt-5 text-[1.0625rem] leading-relaxed text-muted">
