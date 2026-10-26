@@ -18,7 +18,7 @@ type Service = {
  */
 
 /** Brokerage: two opposing arrows meeting at a MagnaCap node (buyer ⇄ seller). */
-const BrokerageArt = (
+export const BrokerageArt = (
   <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" fill="none">
     <path d="M-20 110h250l-34-34m34 34-34 34" stroke="var(--svc-art-a)" strokeWidth="26" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M420 200H170l34-34m-34 34 34 34" stroke="var(--svc-art-b)" strokeWidth="26" strokeLinecap="round" strokeLinejoin="round" />
@@ -28,7 +28,7 @@ const BrokerageArt = (
 );
 
 /** Advisory: a portfolio ring split into allocations, cropped off the panel edge. */
-const AdvisoryArt = (
+export const AdvisoryArt = (
   <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none">
     <g transform="translate(250 190)" strokeWidth="64">
       <circle r="130" stroke="var(--svc-art-a)" />
@@ -40,7 +40,7 @@ const AdvisoryArt = (
 );
 
 /** Custody and research: stacked report sheets on a secure base. */
-const CustodyArt = (
+export const CustodyArt = (
   <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" fill="none">
     <rect x="50" y="214" width="250" height="110" rx="18" fill="var(--svc-art-b)" />
     {[0, 1, 2].map((i) => (
@@ -61,7 +61,20 @@ const CustodyArt = (
 );
 
 /** Proprietary trading: a rising route over rising columns. */
-const TradingArt = (
+/** Custodian services: a safe with its dial, on a secure base. */
+export const VaultArt = (
+  <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" fill="none">
+    <rect x="80" y="70" width="220" height="200" rx="22" fill="var(--svc-art-b)" />
+    <rect x="102" y="92" width="176" height="156" rx="14" fill="var(--svc-art-a)" />
+    <circle cx="190" cy="170" r="44" fill="var(--svc-art-b)" />
+    <circle cx="190" cy="170" r="30" stroke="var(--color-paper)" strokeWidth="6" />
+    <path d="M190 140v20M220 170h-20M190 200v-20M160 170h20" stroke="var(--color-paper)" strokeWidth="6" strokeLinecap="round" />
+    <rect x="262" y="140" width="10" height="60" rx="5" fill="var(--color-signal)" />
+    <rect x="60" y="262" width="260" height="40" rx="14" fill="var(--svc-art-b)" />
+  </svg>
+);
+
+export const TradingArt = (
   <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" fill="none">
     {[0, 1, 2, 3].map((i) => (
       <rect key={i} x={70 + i * 80} y={230 - i * 46} width="56" height={120 + i * 46} rx="10" fill="var(--svc-art-a)" />

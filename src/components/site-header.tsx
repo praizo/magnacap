@@ -75,7 +75,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={cx(
                       "flex h-10 items-center rounded-control px-3 text-[0.9375rem] transition-colors focus-visible:-outline-offset-4",
-                      isActive(item.href) ? "bg-ink/6 text-ink" : "text-muted hover:bg-ink/6 hover:text-ink",
+                      isActive(item.href) ? "bg-signal/15 text-ink" : "text-muted hover:bg-signal/15 hover:text-signal-ink",
                     )}
                   >
                     {item.label}
@@ -91,7 +91,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
           aria-current={isActive("/contact") ? "page" : undefined}
           className="button-link hidden h-11 items-center rounded-[0.625rem] bg-signal px-4 text-sm font-medium text-ink hover:bg-signal-hover lg:inline-flex"
         >
-          Speak to a broker
+          Get started
         </Link>
 
         <button
@@ -141,7 +141,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
                   <ul className="-mt-2 pb-4">
                     {item.children.map((child) => (
                       <li key={child.href}>
-                        <Link href={child.href} onClick={() => setOpen(false)} className="block py-2 ps-4 text-lg text-muted hover:text-ink">
+                        <Link href={child.href} onClick={() => setOpen(false)} className="block py-2 ps-4 text-lg text-muted hover:text-signal-ink">
                           {child.label}
                         </Link>
                       </li>
@@ -182,7 +182,7 @@ function NavDropdown({ item, active }: { item: NavItemWithChildren; active: bool
         if (!itemRef.current?.contains(event.relatedTarget as Node | null)) setOpen(false);
       }}
     >
-      <div className={cx("flex h-10 items-center rounded-control transition-colors", active || open ? "bg-ink/6 text-ink" : "text-muted hover:bg-ink/6 hover:text-ink")}>
+      <div className={cx("flex h-10 items-center rounded-control transition-colors", active ? "bg-signal/15 text-ink" : open ? "bg-signal/15 text-signal-ink" : "text-muted hover:bg-signal/15 hover:text-signal-ink")}>
         <Link
           href={item.href}
           aria-current={active ? "page" : undefined}
@@ -210,7 +210,7 @@ function NavDropdown({ item, active }: { item: NavItemWithChildren; active: bool
               <Link
                 href={child.href}
                 onClick={() => setOpen(false)}
-                className="block rounded-control px-3 py-2.5 text-[0.9375rem] text-ink hover:bg-ink/6"
+                className="block rounded-control px-3 py-2.5 text-[0.9375rem] text-ink hover:bg-signal/15 hover:text-signal-ink"
               >
                 {child.label}
               </Link>

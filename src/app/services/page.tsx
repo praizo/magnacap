@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckList } from "@/components/check-list";
+import { AdvisoryArt, BrokerageArt, CustodyArt, TradingArt, VaultArt } from "@/components/service-cards";
 import { PageHeader } from "@/components/sections";
 import { ServiceStack } from "@/components/service-stack";
 import { ArrowIcon, Container } from "@/components/ui";
@@ -42,11 +43,7 @@ export default function ServicesPage() {
 
       {/* Mini intro above the stack (after arm.com.ng's "Investments" lead-in) */}
       <Container className="services-intro">
-        <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.08em] text-muted">
-          <span aria-hidden="true" className="size-2 rounded-full bg-signal" />
-          Our services
-        </p>
-        <h2 className="mt-5 max-w-[22ch] text-h2 text-ink">
+        <h2 className="max-w-[22ch] text-h2 text-ink">
           Our expertise spans trading, brokerage, and investment advisory.
         </h2>
         <p className="mt-5 max-w-[48ch] text-lead text-muted">
@@ -58,7 +55,7 @@ export default function ServicesPage() {
       {/* Equal-height cards that stack as you scroll */}
       <Container className="pbs-10 lg:pbs-14">
         <ServiceStack>
-          <section id="brokerage" aria-labelledby="brokerage-title" className="stack-card">
+          <section id="brokerage" aria-labelledby="brokerage-title" className="stack-card svc-brokerage">
             <div className="stack-card-copy">
               <h2 id="brokerage-title" className="text-h2 text-ink">Brokerage</h2>
               <p className="mt-5 text-[1.0625rem] leading-relaxed text-muted">
@@ -70,17 +67,20 @@ export default function ServicesPage() {
               </p>
               <ReadMore slug="brokerage" title="Brokerage" />
             </div>
-            <div className="stack-card-panel">
-              <p className="font-medium text-ink">Our execution service covers the following asset classes:</p>
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {assetClasses.map((asset) => (
-                  <li key={asset} className="svc-pill bg-paper text-ink">{asset}</li>
-                ))}
-              </ul>
+            <div className="stack-card-art">
+              <span className="stack-card-art-image" aria-hidden="true">{BrokerageArt}</span>
+              <div className="stack-card-art-tile">
+                <p className="font-medium text-ink">Our execution service covers the following asset classes:</p>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {assetClasses.map((asset) => (
+                    <li key={asset} className="svc-pill">{asset}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </section>
 
-          <section id="advisory" aria-labelledby="advisory-title" className="stack-card stack-card-sand">
+          <section id="advisory" aria-labelledby="advisory-title" className="stack-card svc-advisory">
             <div className="stack-card-copy">
               <h2 id="advisory-title" className="text-h2 text-ink">Investment Advisory</h2>
               <p className="mt-5 text-[1.0625rem] leading-relaxed text-muted">
@@ -90,13 +90,16 @@ export default function ServicesPage() {
               </p>
               <ReadMore slug="investment-advisory" title="Investment Advisory" />
             </div>
-            <div className="stack-card-panel">
-              <p className="mb-5 font-medium text-ink">Our advisory team offers:</p>
-              <CheckList items={["Customized Financial Planning", "Portfolio Management", "Stock recommendation", "Research"]} />
+            <div className="stack-card-art">
+              <span className="stack-card-art-image" aria-hidden="true">{AdvisoryArt}</span>
+              <div className="stack-card-art-tile">
+                <p className="mb-5 font-medium text-ink">Our advisory team offers:</p>
+                <CheckList items={["Customized Financial Planning", "Portfolio Management", "Stock recommendation", "Research"]} />
+              </div>
             </div>
           </section>
 
-          <section id="proprietary-trading" aria-labelledby="trading-title" className="stack-card stack-card-black on-dark">
+          <section id="proprietary-trading" aria-labelledby="trading-title" className="stack-card svc-black is-dark on-dark">
             <div className="stack-card-copy">
               <h2 id="trading-title" className="text-h2">Trading</h2>
               <p className="mt-5 text-[1.0625rem] leading-relaxed text-on-slate-muted">
@@ -107,23 +110,25 @@ export default function ServicesPage() {
                 commodities.
               </p>
             </div>
-            <div className="stack-card-panel">
-              <p className="text-lg font-medium leading-snug">
-                By leveraging our deep market insights, we aim to maximize profits and mitigate
-                risks, ensuring robust portfolio growth.
-              </p>
-              <ul className="mt-6 flex flex-wrap gap-2">
-                {tradedInstruments.map((item) => (
-                  <li key={item} className="svc-pill svc-pill-forest">{item}</li>
-                ))}
-              </ul>
+            <div className="stack-card-art">
+              <span className="stack-card-art-image" aria-hidden="true">{TradingArt}</span>
+              <div className="stack-card-art-tile">
+                <p className="text-lg font-medium leading-snug">
+                  By leveraging our deep market insights, we aim to maximize profits and mitigate
+                  risks, ensuring robust portfolio growth.
+                </p>
+                <ul className="mt-6 flex flex-wrap gap-2">
+                  {tradedInstruments.map((item) => (
+                    <li key={item} className="svc-pill">{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </section>
 
-          <section id="custody" aria-labelledby="custody-title" className="stack-card stack-card-custody">
+          <section id="custody" aria-labelledby="custody-title" className="stack-card svc-custody">
             <div className="stack-card-copy">
-              <p className="stack-card-label">Other services</p>
-              <h2 id="custody-title" className="mt-4 text-h2 text-ink">Custodian Services</h2>
+              <h2 id="custody-title" className="text-h2 text-ink">Custodian Services</h2>
               <p className="mt-5 text-[1.0625rem] leading-relaxed text-muted">
                 We ensure the safety and management of your investment assets with our reliable
                 custodial services. We provide secure storage, transaction settlement, and
@@ -131,15 +136,17 @@ export default function ServicesPage() {
                 investment strategy.
               </p>
             </div>
-            <div className="stack-card-panel">
-              <CheckList items={["Secure storage", "Transaction settlement", "Comprehensive reporting"]} />
+            <div className="stack-card-art">
+              <span className="stack-card-art-image" aria-hidden="true">{VaultArt}</span>
+              <div className="stack-card-art-tile">
+                <CheckList items={["Secure storage", "Transaction settlement", "Comprehensive reporting"]} />
+              </div>
             </div>
           </section>
 
-          <section id="research" aria-labelledby="research-title" className="stack-card stack-card-research">
+          <section id="research" aria-labelledby="research-title" className="stack-card svc-blueblack is-dark on-dark">
             <div className="stack-card-copy">
-              <p className="stack-card-label">Other services</p>
-              <h2 id="research-title" className="mt-4 text-h2 text-ink">Research</h2>
+              <h2 id="research-title" className="text-h2 text-ink">Research</h2>
               <p className="mt-5 text-[1.0625rem] leading-relaxed text-muted">
                 We provide market insight for our clients’ decision making through our market
                 report, macroeconomic report, company reports and many more. Our team of experts
@@ -148,8 +155,11 @@ export default function ServicesPage() {
                 confidently.
               </p>
             </div>
-            <div className="stack-card-panel">
-              <CheckList items={["Market report", "Macroeconomic report", "Company reports", "Economic forecasts", "Sector-specific reports"]} />
+            <div className="stack-card-art">
+              <span className="stack-card-art-image" aria-hidden="true">{CustodyArt}</span>
+              <div className="stack-card-art-tile">
+                <CheckList items={["Market report", "Macroeconomic report", "Company reports", "Economic forecasts", "Sector-specific reports"]} />
+              </div>
             </div>
           </section>
         </ServiceStack>

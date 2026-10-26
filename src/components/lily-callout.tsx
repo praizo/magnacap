@@ -5,8 +5,8 @@ import { AppleIcon, LilyScreens, PlayIcon } from "./lily";
 import { ButtonLink, Container } from "./ui";
 
 /**
- * LILY app callout in the app's own orange: copy left, authentic screens
- * rising off the base. Rendered above the footer on every page.
+ * LILY app callout: copy left, authentic screens rising off the base. Rendered
+ * above the footer on every page, on black with LILY orange accents.
  */
 export function LilyCallout() {
   return (
@@ -14,7 +14,7 @@ export function LilyCallout() {
       <Container>
         <div className="lily-banner">
           <div className="lily-banner-copy">
-            {/* Official wordmark from lily.ng, knocked out to white on the orange field. */}
+            {/* Official wordmark from lily.ng, in its own orange on the black field. */}
             <Image src={lilyWordmark} alt="LILY" className="h-9 w-auto brightness-0 invert" />
             <h2 id="lily-title" className="lily-banner-title mbs-5">
               Make your money work. <span className="block">Save, trade and invest.</span>

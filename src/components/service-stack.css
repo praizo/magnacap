@@ -3,15 +3,12 @@
 /* One card height for the whole stack, capped to the space under the pinned
    header so a stacked card is never cut off. */
 .stack-card {
-  --card-surface: color-mix(in oklch, var(--color-slate) 12%, var(--color-paper));
-  --card-border: color-mix(in oklch, var(--color-slate) 22%, var(--color-paper));
-  --card-panel: color-mix(in oklch, var(--card-surface) 45%, var(--color-paper));
   display: grid;
   gap: 2rem;
-  border: 1px solid var(--card-border);
   border-radius: 1.5rem;
-  background: var(--card-surface);
-  color: var(--color-ink);
+  /* Colours come from the homepage service-card families (.svc-brokerage etc.). */
+  background: var(--svc-bg, var(--color-mist));
+  color: var(--svc-fg, var(--color-ink));
   padding: clamp(1.75rem, 1rem + 2.5vw, 3rem);
 }
 @media (min-width: 64rem) {
@@ -23,37 +20,51 @@
     overflow: clip;
   }
 }
-.stack-card-sand {
-  --card-surface: color-mix(in oklch, var(--color-signal) 18%, var(--color-paper));
-  --card-border: color-mix(in oklch, var(--color-signal-ink) 24%, var(--color-paper));
+/* Two dark families for the stack, alongside the homepage's teal, gold and rose. */
+.svc-black {
+  --svc-bg: oklch(0.16 0.005 282);
+  --svc-fg: var(--color-on-slate);
+  --svc-panel: oklch(0.1 0 none);
+  --svc-art-a: oklch(0.3 0.01 282);
+  --svc-art-b: oklch(0.45 0.01 282);
 }
-.stack-card-black {
-  --card-surface: var(--color-slate-deep);
-  --card-border: var(--color-slate);
-  --card-panel: color-mix(in oklch, var(--color-slate-deep) 72%, var(--color-slate));
-  color: var(--color-on-slate);
+.svc-blueblack {
+  --svc-bg: oklch(0.22 0.045 262);
+  --svc-fg: var(--color-on-slate);
+  --svc-panel: oklch(0.15 0.04 262);
+  --svc-art-a: oklch(0.4 0.07 258);
+  --svc-art-b: oklch(0.3 0.06 262);
 }
-.stack-card-custody {
-  --card-surface: color-mix(in oklch, var(--color-slate) 7%, var(--color-paper));
-  --card-border: color-mix(in oklch, var(--color-slate) 17%, var(--color-paper));
-}
-.stack-card-research {
-  --card-surface: oklch(0.955 0.009 70);
-  --card-border: oklch(0.86 0.015 70);
-}
+.stack-card.is-dark :is(.text-ink, h2) { color: var(--color-on-slate); }
+.stack-card.is-dark :is(.text-muted, .text-on-slate-muted) { color: var(--color-on-slate-muted); }
 .stack-card-copy { display: flex; flex-direction: column; }
 .stack-card-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-signal-ink); }
-.stack-card-black .stack-card-label { color: var(--color-signal); }
-.stack-card-panel {
+.stack-card.is-dark .stack-card-label { color: var(--color-signal); }
+
+/* Right side: the card's deep art panel with its illustration, and the list on a light tile over it. */
+.stack-card-art {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
+  min-block-size: 18rem;
+  overflow: clip;
   border-radius: 1rem;
-  background: var(--card-panel);
-  padding: 1.5rem;
+  background: var(--svc-panel, var(--color-slate));
+  padding: 1rem;
 }
-.stack-card .svc-pill { border: 1px solid var(--card-border); }
-.stack-card-black .svc-pill { border-color: var(--color-on-slate-line); background: color-mix(in oklch, var(--card-surface) 65%, transparent); }
+.stack-card-art-image { position: absolute; z-index: -1; inset: 0; }
+.stack-card-art-image svg { inline-size: 100%; block-size: 100%; }
+.stack-card-art-tile {
+  border-radius: 0.875rem;
+  background: oklch(1 0 none / 0.94);
+  padding: 1.25rem 1.375rem;
+  color: var(--color-ink);
+  backdrop-filter: blur(8px);
+}
+.stack-card-art-tile :is(.text-ink, p, li) { color: var(--color-ink); }
+.stack-card .svc-pill { border: 1px solid var(--color-line); background: var(--color-paper); color: var(--color-ink); padding: 0.375rem 0.75rem; font-size: 0.8125rem; }
 
 @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
   .service-stack .stack-card { box-shadow: 0 -10px 30px -12px oklch(0.2 0.01 280 / 0.18); }
