@@ -23,10 +23,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  // Over the home hero the white glass reads as soft grey against the dark
-  // photo. Once scrolled (any page) the bar carries that grey itself, so it
-  // keeps the landing-page look over white sections too.
-  const look = scrolled || open ? "glass" : isHome ? "hero" : "flat";
+  const floating = isHome || scrolled || open;
 
   // The menu panel starts at the header's current bottom edge rather than a fixed offset.
   const toggleMenu = () => {
@@ -69,9 +66,9 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
       <div
         className={cx(
           "pointer-events-auto flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 transition-[background-color,border-color,backdrop-filter] duration-300 lg:ps-5",
-          look === "hero" && "border-line/70 bg-paper/80 backdrop-blur-xl backdrop-saturate-150",
-          look === "glass" && "border-line/70 bg-[oklch(0.94_0.004_286/0.85)] backdrop-blur-xl backdrop-saturate-150",
-          look === "flat" && "border-transparent bg-transparent",
+          floating
+            ? "border-line/70 bg-paper/80 backdrop-blur-xl backdrop-saturate-150"
+            : "border-transparent bg-transparent",
         )}
       >
         <Link
