@@ -1,0 +1,16 @@
+/* React Bits Scroll Stack — adapted for the existing service card design. */
+.scroll-stack { position: relative; inline-size: 100%; }
+.scroll-stack--contained { block-size: 100%; overflow-x: clip; overflow-y: auto; }
+.scroll-stack__inner { position: relative; }
+.scroll-stack__slot { position: sticky; }
+[data-stack-anchor] { display: block; block-size: 0; }
+.scroll-stack-card { position: relative; inline-size: 100%; border-radius: 1.5rem; transform-origin: 50% 0; }
+.scroll-stack-card__shade { position: absolute; inset: 0; border-radius: inherit; background: oklch(0 none none); opacity: var(--scroll-stack-dim, 0); pointer-events: none; }
+@media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  .scroll-stack-card { will-change: transform; }
+}
+@media (max-width: 63.999rem), (prefers-reduced-motion: reduce) {
+  .scroll-stack__slot { position: static; margin-block-end: 1.25rem !important; }
+  .scroll-stack__inner > div[aria-hidden] { display: none; }
+  .scroll-stack-card__shade { display: none; }
+}

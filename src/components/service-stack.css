@@ -1,0 +1,63 @@
+.service-stack { isolation: isolate; min-inline-size: 0; }
+
+/* One card height for the whole stack, capped to the space under the pinned
+   header so a stacked card is never cut off. */
+.stack-card {
+  --card-surface: color-mix(in oklch, var(--color-slate) 12%, var(--color-paper));
+  --card-border: color-mix(in oklch, var(--color-slate) 22%, var(--color-paper));
+  --card-panel: color-mix(in oklch, var(--card-surface) 45%, var(--color-paper));
+  display: grid;
+  gap: 2rem;
+  border: 1px solid var(--card-border);
+  border-radius: 1.5rem;
+  background: var(--card-surface);
+  color: var(--color-ink);
+  padding: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+}
+@media (min-width: 64rem) {
+  .stack-card {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 3rem;
+    block-size: min(30rem, calc(100svh - 10rem));
+    overflow: clip;
+  }
+}
+.stack-card-sand {
+  --card-surface: color-mix(in oklch, var(--color-signal) 18%, var(--color-paper));
+  --card-border: color-mix(in oklch, var(--color-signal-ink) 24%, var(--color-paper));
+}
+.stack-card-black {
+  --card-surface: var(--color-slate-deep);
+  --card-border: var(--color-slate);
+  --card-panel: color-mix(in oklch, var(--color-slate-deep) 72%, var(--color-slate));
+  color: var(--color-on-slate);
+}
+.stack-card-custody {
+  --card-surface: color-mix(in oklch, var(--color-slate) 7%, var(--color-paper));
+  --card-border: color-mix(in oklch, var(--color-slate) 17%, var(--color-paper));
+}
+.stack-card-research {
+  --card-surface: oklch(0.955 0.009 70);
+  --card-border: oklch(0.86 0.015 70);
+}
+.stack-card-copy { display: flex; flex-direction: column; }
+.stack-card-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-signal-ink); }
+.stack-card-black .stack-card-label { color: var(--color-signal); }
+.stack-card-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 1rem;
+  background: var(--card-panel);
+  padding: 1.5rem;
+}
+.stack-card .svc-pill { border: 1px solid var(--card-border); }
+.stack-card-black .svc-pill { border-color: var(--color-on-slate-line); background: color-mix(in oklch, var(--card-surface) 65%, transparent); }
+
+@media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  .service-stack .stack-card { box-shadow: 0 -10px 30px -12px oklch(0.2 0.01 280 / 0.18); }
+  /* React Bits owns card transforms; keep the page reveal off these cards. */
+  .service-stack .stack-card,
+  .service-stack .stack-card h2 { animation: none; }
+}
