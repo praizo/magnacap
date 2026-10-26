@@ -36,7 +36,7 @@ export default function ServicesPage() {
     <>
       <PageHeader
         eyebrow="Our services"
-        image={{ src: "/pages/services.jpg", alt: "MagnaCap brokers on the trading desk." }}
+        image={{ src: "/pages/services.jpg", alt: "Black professionals discussing a project with a colleague around a laptop." }}
         title="We are committed to providing unparalleled financial solutions"
         quiet="to both corporate and retail clients."
       />

@@ -32,9 +32,25 @@ export function TwoTone({
   );
 }
 
-/** True when a file exists under public/, so a page photo can be dropped in later. */
-function publicFileExists(src: string) {
-  return existsSync(path.join(process.cwd(), "public", src));
+/**
+ * Resolves a public asset path against the filesystem, testing the given path
+ * and common image extensions (.jpg, .jpeg, .png, .webp). Returns the existing
+ * relative path (e.g. "/pages/about.png"), or null if missing.
+ */
+export function resolvePublicImage(src: string): string | null {
+  const publicDir = path.join(process.cwd(), "public");
+  if (existsSync(path.join(publicDir, src))) {
+    return src;
+  }
+  const parsed = path.parse(src);
+  const extensions = [".jpg", ".jpeg", ".png", ".webp"];
+  for (const ext of extensions) {
+    const candidate = path.posix.join(parsed.dir, `${parsed.name}${ext}`);
+    if (existsSync(path.join(publicDir, candidate))) {
+      return candidate;
+    }
+  }
+  return null;
 }
 
 /**
@@ -61,7 +77,7 @@ export function PageHeader({
   overlay?: ReactNode;
   children?: ReactNode;
 }) {
-  const hasPhoto = image && publicFileExists(image.src);
+  const resolvedSrc = image ? resolvePublicImage(image.src) : null;
   return (
     <section className="page-header">
       <Container className="pbs-12 text-center sm:pbs-16 lg:pbs-20">
@@ -72,8 +88,8 @@ export function PageHeader({
         {lead && <div className="mx-auto mt-6 max-w-[42rem] text-lead text-muted">{lead}</div>}
         {children}
         <div className="page-header-media">
-          {hasPhoto ? (
-            <Image src={image.src} alt={image.alt} fill priority sizes="(min-width: 80rem) 76rem, 100vw" className="object-cover" />
+          {resolvedSrc ? (
+            <Image src={resolvedSrc} alt={image!.alt} fill preload sizes="(min-width: 80rem) 76rem, 100vw" className="object-cover" />
           ) : (
             <div className="page-header-placeholder" aria-hidden="true">
               <BrandEmblem />

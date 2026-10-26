@@ -1,64 +1,62 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/sections";
-import { ButtonLink, Container, Label, cx } from "@/components/ui";
-import { mailto, reportTypes } from "@/content/site";
+import Image from "next/image";
+import { CheckList } from "@/components/check-list";
+import { SectionHeading } from "@/components/sections";
+import { SubscribeForm } from "@/components/subscribe-form";
+import { ButtonLink, Container, Label } from "@/components/ui";
+import { company, reportTypes } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Market insights",
   description:
-    "MagnaCap's market, macroeconomic, company and sector-specific reports for clients.",
+    "Subscribe to MagnaCap's market, macroeconomic, company and sector-specific reports.",
   alternates: { canonical: "/insights" },
 };
 
 export default function InsightsPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="Market insights"
-        image={{ src: "/pages/insights.jpg", alt: "A MagnaCap analyst reviewing market data." }}
-        title="Stay sharp with our reports"
-        quiet="and keep abreast of key market news."
-        lead={
-          <p>
-            Our team delivers timely market insight, economic forecasts and sector-specific
-            reports to support our clients&apos; decisions.
-          </p>
-        }
-      />
-
-      <section aria-labelledby="publish-title">
-        <Container className="py-16 lg:py-24">
-          <Label as="h2" className="text-muted">
-            <span id="publish-title">What we publish</span>
-          </Label>
-          <ul className="mt-8 grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
-            {reportTypes.map((report, i) => (
-              <li
-                key={report}
-                className={cx(
-                  "border-b border-line py-8 text-h3 font-medium text-ink lg:border-b-0 lg:border-l lg:px-6 lg:py-12",
-                  i === 0 && "lg:border-l-0 lg:pl-0",
-                )}
-              >
-                {report}
-              </li>
-            ))}
-          </ul>
+      <section aria-labelledby="insights-title">
+        <Container className="grid gap-12 py-16 lg:grid-cols-12 lg:items-center lg:gap-12 lg:py-24">
+          <div className="lg:col-span-6">
+            <Label className="text-muted">Market insights</Label>
+            <h1 id="insights-title" className="mt-5 max-w-[16ch] text-h1 text-ink">
+              Stay sharp with our reports.{" "}
+              <span className="text-quiet">Delivered to your inbox.</span>
+            </h1>
+            <p className="mt-6 max-w-[34rem] text-lead text-muted">
+              Subscribe for timely market insight, economic forecasts and sector analysis from our team.
+            </p>
+            <div className="mt-8 text-ink">
+              <CheckList items={reportTypes} />
+            </div>
+            <div className="mt-10">
+              <ButtonLink href="#subscribe">Subscribe now</ButtonLink>
+            </div>
+          </div>
+          <div className="relative aspect-[4/5] overflow-clip rounded-panel bg-mist lg:col-span-6">
+            <Image
+              src="/pages/insights-portrait.webp"
+              alt="A financial analyst reviewing printed reports beside market charts."
+              fill
+              preload
+              sizes="(min-width: 80rem) 36rem, (min-width: 64rem) 45vw, calc(100vw - 2rem)"
+              className="object-cover"
+            />
+          </div>
         </Container>
       </section>
 
-      <section aria-labelledby="request-title" className="border-t border-line bg-mist">
-        <Container className="grid gap-8 py-20 lg:grid-cols-12 lg:items-end lg:py-24">
-          <div className="lg:col-span-8">
-            <h2 id="request-title" className="text-h2 text-ink">
-              Reports are circulated periodically to clients.
-            </h2>
-            <p className="mt-5 max-w-[36rem] text-lead text-muted">
-              Contact us to receive MagnaCap&apos;s market reports.
-            </p>
-          </div>
-          <div className="lg:col-span-4 lg:flex lg:justify-end">
-            <ButtonLink href={mailto("Market reports")}>Request our reports</ButtonLink>
+      <section id="subscribe" aria-labelledby="subscribe-title" className="border-t border-line bg-mist">
+        <Container className="py-16 lg:py-24">
+          <SectionHeading
+            id="subscribe-title"
+            eyebrow="Subscribe"
+            title="Get our reports by email."
+            intro={<p>Free for clients and prospective clients. {company.secLicence}.</p>}
+          />
+          <div className="mt-10 max-w-2xl rounded-panel border border-line bg-paper p-6 sm:p-8 lg:p-10">
+            <SubscribeForm />
           </div>
         </Container>
       </section>

@@ -5,7 +5,7 @@ import { ClienteleSlider } from "@/components/clientele-grid";
 import { PartnerMarquee } from "@/components/partner-marquee";
 import { ServiceCards } from "@/components/service-cards";
 import { AppleIcon, PlayIcon } from "@/components/lily";
-import { SectionHeading } from "@/components/sections";
+import { SectionHeading, resolvePublicImage } from "@/components/sections";
 import { ArrowIcon, ButtonLink, Container, Label, cx } from "@/components/ui";
 import { partnerLogos } from "@/content/partner-logos";
 import { advantages, partners } from "@/content/site";
@@ -15,11 +15,15 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const heroImage = resolvePublicImage("/hero/business-discussion.jpg");
+
   return (
     <>
       {/* Hero: full-bleed slate-toned photograph, copy low-left */}
       <section aria-labelledby="hero-title" className="home-hero">
-        <Image src="/hero/hero.jpg" alt="" fill priority sizes="100vw" className="hero-media" />
+        {heroImage && (
+          <Image src={heroImage} alt="" fill preload sizes="100vw" className="hero-media" />
+        )}
         <div className="hero-copy">
           <p className="hero-badge">
             <span aria-hidden="true" className="hero-badge-dot" />

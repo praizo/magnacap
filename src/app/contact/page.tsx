@@ -16,7 +16,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         eyebrow="Contact us"
-        image={{ src: "/pages/contact.jpg", alt: "The MagnaCap office in Sabo, Yaba, Lagos." }}
+        image={{ src: "/pages/client-support.jpg", alt: "A Black customer support professional wearing a headset in an office." }}
         title="Speak to our team."
         quiet="Call, email or visit us in Lagos."
       />

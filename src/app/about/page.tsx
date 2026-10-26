@@ -56,7 +56,7 @@ export default function AboutPage() {
       {/* Header (risevest.com) with the figures panel laid over the photo (afrinvest.com) */}
       <PageHeader
         eyebrow="About MagnaCap"
-        image={{ src: "/pages/about.jpg", alt: "The MagnaCap team at work in Lagos." }}
+        image={{ src: "/pages/about-team-colour.jpg", alt: "A diverse team, including Black professionals, collaborating around a laptop in a bright office." }}
         title="Dependable, accountable,"
         quiet="and focused on quality of service."
         lead={

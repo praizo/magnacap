@@ -27,7 +27,12 @@ export function ServiceDetailPage({ slug }: { slug: (typeof servicePages)[number
     <>
       <PageHeader
         eyebrow={service.group}
-        image={{ src: `/pages/services-${service.slug}.jpg`, alt: `MagnaCap ${service.title.toLowerCase()}.` }}
+        image={{
+          src: `/pages/services-${service.slug}.jpg`,
+          alt: service.slug === "brokerage"
+            ? "A Black professional discussing ideas with a colleague in a shared workspace."
+            : "A Black woman and a colleague in conversation beside an office window.",
+        }}
         title={service.title}
         lead={<p>{service.intro}</p>}
       />
