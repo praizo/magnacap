@@ -6,7 +6,7 @@
   display: grid;
   gap: 2rem;
   border-radius: 1.5rem;
-  /* Colours come from the service families in globals.css (.svc-brokerage etc.). */
+  /* Colours come from the .svc-* families below. */
   background: var(--svc-bg, var(--color-mist));
   color: var(--svc-fg, var(--color-ink));
   padding: clamp(1.75rem, 1rem + 2.5vw, 3rem);
@@ -19,6 +19,43 @@
     block-size: min(30rem, calc(100svh - 10rem));
     overflow: clip;
   }
+}
+/*
+ * /services stack: brand-derived families (slate tint, orange tint, deep slate
+ * for proprietary trading, neutral grey, mid slate for research). Light and
+ * dark alternate so each card separates from the one under it.
+ */
+.stack-card.svc-brokerage {
+  --svc-bg: oklch(0.93 0.022 283);
+  --svc-panel: var(--color-slate);
+  --svc-art-a: oklch(0.6 0.05 283);
+  --svc-art-b: oklch(0.84 0.03 283);
+}
+.stack-card.svc-advisory {
+  --svc-bg: oklch(0.955 0.03 60);
+  --svc-panel: var(--color-signal);
+  --svc-art-a: oklch(0.87 0.08 58);
+  --svc-art-b: var(--color-slate-deep);
+}
+.stack-card.svc-custody {
+  --svc-bg: oklch(0.945 0.005 286);
+  --svc-panel: oklch(0.56 0.035 283);
+  --svc-art-a: oklch(0.76 0.025 283);
+  --svc-art-b: var(--color-slate-deep);
+}
+.stack-card.svc-trading {
+  --svc-bg: var(--color-slate-deep);
+  --svc-fg: var(--color-on-slate);
+  --svc-panel: oklch(0.24 0.035 282);
+  --svc-art-a: oklch(0.44 0.05 283);
+  --svc-art-b: var(--color-signal);
+}
+.stack-card.svc-research {
+  --svc-bg: var(--color-slate);
+  --svc-fg: var(--color-on-slate);
+  --svc-panel: var(--color-slate-deep);
+  --svc-art-a: oklch(0.56 0.05 283);
+  --svc-art-b: var(--color-on-slate-muted);
 }
 .stack-card.is-dark :is(.text-ink, h2) { color: var(--color-on-slate); }
 .stack-card.is-dark :is(.text-muted, .text-on-slate-muted) { color: var(--color-on-slate-muted); }

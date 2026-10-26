@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { contact, mailto, riskWarning } from "@/content/site";
 import { ArrowIcon } from "./ui";
 
@@ -10,6 +11,9 @@ import { ArrowIcon } from "./ui";
  * form composes an email to MagnaCap and never claims the visitor was added.
  */
 const endpoint = process.env.NEXT_PUBLIC_SUBSCRIBE_ENDPOINT;
+
+/** Window event the footer sign-up fires to prefill this form's email. */
+export const prefillEvent = "magnacap:subscribe-prefill";
 
 type Status =
   | { kind: "idle" }
@@ -24,6 +28,21 @@ const fieldClass =
 export function SubscribeForm() {
   const id = useId();
   const [status, setStatus] = useState<Status>({ kind: "idle" });
+  const emailRef = useRef<HTMLInputElement>(null);
+  const firstNameRef = useRef<HTMLInputElement>(null);
+
+  // Prefill the email handed over from the footer sign-up (see
+  // SubscribeEmailPrefill) and move focus to the first field still to fill in.
+  useEffect(() => {
+    const onPrefill = (event: Event) => {
+      const email = (event as CustomEvent<string>).detail;
+      if (!email || !emailRef.current) return;
+      emailRef.current.value = email;
+      firstNameRef.current?.focus({ preventScroll: true });
+    };
+    window.addEventListener(prefillEvent, onPrefill);
+    return () => window.removeEventListener(prefillEvent, onPrefill);
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,7 +91,7 @@ export function SubscribeForm() {
           <label htmlFor={`${id}-first`} className="text-sm font-medium text-ink">
             First name
           </label>
-          <input id={`${id}-first`} name="firstName" required autoComplete="given-name" className={fieldClass} />
+          <input ref={firstNameRef} id={`${id}-first`} name="firstName" required autoComplete="given-name" className={fieldClass} />
         </div>
         <div>
           <label htmlFor={`${id}-last`} className="text-sm font-medium text-ink">
@@ -84,7 +103,7 @@ export function SubscribeForm() {
           <label htmlFor={`${id}-email`} className="text-sm font-medium text-ink">
             Email
           </label>
-          <input id={`${id}-email`} name="email" type="email" required autoComplete="email" className={fieldClass} />
+          <input ref={emailRef} id={`${id}-email`} name="email" type="email" required autoComplete="email" className={fieldClass} />
         </div>
       </div>
 
@@ -132,4 +151,17 @@ export function SubscribeForm() {
       </p>
     </form>
   );
+}
+
+/**
+ * Reads ?email= (set by the footer sign-up) and hands it to SubscribeForm.
+ * useSearchParams stays in sync with client navigations, unlike reading
+ * window.location on mount. Render it after the form, inside <Suspense>.
+ */
+export function SubscribeEmailPrefill() {
+  const email = useSearchParams().get("email");
+  useEffect(() => {
+    if (email) window.dispatchEvent(new CustomEvent(prefillEvent, { detail: email }));
+  }, [email]);
+  return null;
 }

@@ -4,35 +4,55 @@ import { CardSlider } from "./card-slider";
 
 type Client = (typeof clientele)[number];
 
-const iconProps = {
-  viewBox: "0 0 24 24",
-  className: "size-5",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 1.5,
-  strokeLinecap: "round",
-  strokeLinejoin: "round",
-} as const;
-
-/** Simple line icons for each supplied client type. Decorative only. */
-export const clientIcons: Record<Client, ReactNode> = {
+/** Small orange motif per client type, set at the top of the card. Decorative only. */
+const clientArt: Record<Client, ReactNode> = {
   "Banking institutions": (
-    <svg {...iconProps}><path d="M3 9.5 12 4l9 5.5M5 10v8m4.67-8v8m4.66-8v8M19 10v8M3.5 20.5h17" /></svg>
+    <>
+      <rect x="18" y="62" width="18" height="58" rx="4" opacity="0.35" />
+      <rect x="46" y="40" width="18" height="80" rx="4" opacity="0.6" />
+      <rect x="74" y="18" width="18" height="102" rx="4" />
+    </>
   ),
   "Pension fund administrators": (
-    <svg {...iconProps}><path d="M12 3a8.5 8.5 0 0 1 8.5 8.5h-17A8.5 8.5 0 0 1 12 3Zm0 8.5v7a2 2 0 0 1-4 0" /></svg>
+    <>
+      <path d="M10 70a50 50 0 0 1 100 0Z" opacity="0.35" />
+      <path d="M32 70a28 28 0 0 1 56 0Z" />
+      <rect x="57" y="70" width="6" height="40" rx="3" opacity="0.6" />
+    </>
   ),
   "Asset managers": (
-    <svg {...iconProps}><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5H12Z" /><path d="M15 3.8A8.5 8.5 0 0 1 20.2 9H15Z" /></svg>
+    <>
+      <path d="M60 60V12a48 48 0 1 1-48 48Z" opacity="0.35" />
+      <path d="M68 52V8a44 44 0 0 1 44 44Z" />
+    </>
   ),
   "Insurance companies": (
-    <svg {...iconProps}><path d="M12 3 5 5.75v5c0 4.25 2.9 7.5 7 9.25 4.1-1.75 7-5 7-9.25v-5Z" /><path d="m9 12 2 2 4-4.5" /></svg>
+    <>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="currentColor" strokeWidth="8" opacity="0.35" />
+      <circle cx="60" cy="60" r="30" fill="none" stroke="currentColor" strokeWidth="8" opacity="0.6" />
+      <circle cx="60" cy="60" r="12" />
+    </>
   ),
   "High-net-worth individuals": (
-    <svg {...iconProps}><path d="M7 4h10l4 5-9 11L3 9Zm-4 5h18M12 20 8.5 9 12 4l3.5 5Z" /></svg>
+    <>
+      <path d="M60 8 112 60 60 112 8 60Z" opacity="0.35" />
+      <path d="M60 32 88 60 60 88 32 60Z" />
+    </>
   ),
   "Retail investors": (
-    <svg {...iconProps}><circle cx="12" cy="8" r="3.75" /><path d="M4.5 20.25a7.5 7.5 0 0 1 15 0" /></svg>
+    <>
+      {[0, 1, 2].map((row) =>
+        [0, 1, 2].map((col) => (
+          <circle
+            key={`${row}-${col}`}
+            cx={24 + col * 36}
+            cy={24 + row * 36}
+            r={row === 2 && col === 2 ? 14 : 8}
+            opacity={row === 2 && col === 2 ? 1 : 0.35 + (row + col) * 0.1}
+          />
+        )),
+      )}
+    </>
   ),
 };
 
@@ -45,13 +65,15 @@ const kinds: Record<Client, "Institutional" | "Individual"> = {
   "Retail investors": "Individual",
 };
 
-/** The six client types as tall tinted cards in a slider. */
+/** The six client types as tall black cards with an orange motif, in a slider. */
 export function ClienteleSlider({ perView = 3 }: { perView?: 2 | 3 }) {
   return (
     <CardSlider label="Client types" perView={perView}>
-      {clientele.map((client, i) => (
-        <div key={client} className={`clientele-tile clientele-tile-${i % 6}`}>
-          <span aria-hidden="true" className="clientele-tile-icon">{clientIcons[client]}</span>
+      {clientele.map((client) => (
+        <div key={client} className="clientele-tile">
+          <svg aria-hidden="true" viewBox="0 0 120 120" className="clientele-tile-art" fill="currentColor">
+            {clientArt[client]}
+          </svg>
           <span className="clientele-tile-kind">{kinds[client]}</span>
           <span className="clientele-tile-name">{client}</span>
         </div>

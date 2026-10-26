@@ -23,18 +23,20 @@ export function LilyCallout() {
               Direct access to fixed income products, stocks and commodities, plus automated
               savings goals, in one simple wealth creation app.
             </p>
-            <div className="mbs-7 flex flex-wrap items-center gap-3">
-              <a href={lily.appStore} target="_blank" rel="noopener noreferrer" className="lily-store button-link">
-                <AppleIcon />
-                App Store
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a href={lily.googlePlay} target="_blank" rel="noopener noreferrer" className="lily-store button-link">
-                <PlayIcon />
-                Google Play
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <ButtonLink href={lily.website} target="_blank" rel="noopener noreferrer" variant="text" className="ms-2 text-paper!">
+            <div className="mbs-7 flex flex-wrap items-center gap-x-3 gap-y-5">
+              <div className="grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto">
+                <a href={lily.appStore} target="_blank" rel="noopener noreferrer" className="lily-store button-link">
+                  <AppleIcon />
+                  App Store
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+                <a href={lily.googlePlay} target="_blank" rel="noopener noreferrer" className="lily-store button-link">
+                  <PlayIcon />
+                  Google Play
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </div>
+              <ButtonLink href={lily.website} target="_blank" rel="noopener noreferrer" variant="text" className="text-paper! sm:ms-2">
                 More about LILY
                 <span className="sr-only"> (opens in a new tab)</span>
               </ButtonLink>

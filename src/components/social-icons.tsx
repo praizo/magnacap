@@ -17,18 +17,17 @@ const glyphs: Record<Network, ReactNode> = {
   TikTok: <path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 1 1-1.85-2.48V9.78a5.7 5.7 0 1 0 4.94 5.62V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3a4.3 4.3 0 0 1-3.24-1.48Z" />,
 };
 
-/** Footer social links: icon plus network name, after risevest.com. */
+/** Footer social links: icon only, with the network name for screen readers. */
 export function SocialIcons({ className }: { className?: string }) {
   return (
     <ul className={className} aria-label={`Follow ${socials.owner}`}>
       {socials.links.map((link) => (
         <li key={link.network}>
-          <a href={link.href} target="_blank" rel="noopener noreferrer" className="social-link">
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4.5" fill="currentColor">
+          <a href={link.href} target="_blank" rel="noopener noreferrer" className="social-link" title={link.network}>
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="currentColor">
               {glyphs[link.network]}
             </svg>
-            {link.network}
-            <span className="sr-only"> ({socials.owner}, opens in a new tab)</span>
+            <span className="sr-only">{link.network} ({socials.owner}, opens in a new tab)</span>
           </a>
         </li>
       ))}

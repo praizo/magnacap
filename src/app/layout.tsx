@@ -45,9 +45,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-NG" className={`${instrument.variable} ${plexMono.variable} antialiased`}>
       <body className="flex min-h-dvh flex-col">
-        <p className="flex flex-wrap justify-center gap-x-2 bg-ink px-4 py-3 text-center text-[0.8125rem] leading-snug text-paper">
-          <span className="tabular font-mono text-xs leading-[inherit]">{company.rcNumber}</span>
-        </p>
         <SiteHeader logo={<Logo className="h-11" />} />
         <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
           {children}

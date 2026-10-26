@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Suspense } from "react";
 import { CheckList } from "@/components/check-list";
 import { SectionHeading } from "@/components/sections";
-import { SubscribeForm } from "@/components/subscribe-form";
+import { SubscribeEmailPrefill, SubscribeForm } from "@/components/subscribe-form";
 import { ButtonLink, Container, Label } from "@/components/ui";
 import { company, reportTypes } from "@/content/site";
 
@@ -57,6 +58,9 @@ export default function InsightsPage() {
           />
           <div className="mt-10 max-w-2xl rounded-panel border border-line bg-paper p-6 sm:p-8 lg:p-10">
             <SubscribeForm />
+            <Suspense fallback={null}>
+              <SubscribeEmailPrefill />
+            </Suspense>
           </div>
         </Container>
       </section>

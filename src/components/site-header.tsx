@@ -10,11 +10,25 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [menuTop, setMenuTop] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const menuId = useId();
+  const isHome = pathname === "/";
 
-  // The licence bar scrolls away above the sticky header, so the menu panel
-  // starts at the header's current bottom edge rather than a fixed offset.
+  // Inner pages start with a flat bar and only float (frosted panel) once the
+  // page scrolls; home always floats over the hero photograph.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  // Over the home hero the white glass reads as soft grey against the dark
+  // photo. Once scrolled (any page) the bar carries that grey itself, so it
+  // keeps the landing-page look over white sections too.
+  const look = scrolled || open ? "glass" : isHome ? "hero" : "flat";
+
+  // The menu panel starts at the header's current bottom edge rather than a fixed offset.
   const toggleMenu = () => {
     if (!open) setMenuTop(headerRef.current?.getBoundingClientRect().bottom ?? 0);
     setOpen((value) => !value);
@@ -42,7 +56,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
       className={cx(
         "pointer-events-none sticky top-0 z-40 h-24 px-(--gutter) pbs-4 lg:px-[clamp(1rem,5vw,4.5rem)]",
         // Home: overlay the full-bleed hero photograph; elsewhere the bar keeps its own space.
-        pathname === "/" && "-mbe-24",
+        isHome && "-mbe-24",
       )}
     >
       <a
@@ -51,8 +65,15 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
       >
         Skip to content
       </a>
-      {/* Floating frosted bar on every page: logo and nav grouped left, one CTA right. */}
-      <div className="pointer-events-auto flex h-16 w-full items-center gap-8 rounded-panel border border-line/70 bg-paper/80 ps-4 pe-2.5 backdrop-blur-xl backdrop-saturate-150 lg:ps-5">
+      {/* Logo and nav grouped left, one CTA right. Flat at the top of inner pages, a floating frosted panel otherwise. */}
+      <div
+        className={cx(
+          "pointer-events-auto flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 transition-[background-color,border-color,backdrop-filter] duration-300 lg:ps-5",
+          look === "hero" && "border-line/70 bg-paper/80 backdrop-blur-xl backdrop-saturate-150",
+          look === "glass" && "border-line/70 bg-[oklch(0.94_0.004_286/0.85)] backdrop-blur-xl backdrop-saturate-150",
+          look === "flat" && "border-transparent bg-transparent",
+        )}
+      >
         <Link
           href="/"
           className="shrink-0"
@@ -75,7 +96,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={cx(
                       "flex h-10 items-center rounded-control px-3 text-[0.9375rem] transition-colors focus-visible:-outline-offset-4",
-                      isActive(item.href) ? "bg-signal/15 text-ink" : "text-muted hover:bg-signal/15 hover:text-signal-ink",
+                      isActive(item.href) ? "bg-signal text-ink" : "text-muted hover:bg-signal hover:text-ink",
                     )}
                   >
                     {item.label}
@@ -182,7 +203,7 @@ function NavDropdown({ item, active }: { item: NavItemWithChildren; active: bool
         if (!itemRef.current?.contains(event.relatedTarget as Node | null)) setOpen(false);
       }}
     >
-      <div className={cx("flex h-10 items-center rounded-control transition-colors", active ? "bg-signal/15 text-ink" : open ? "bg-signal/15 text-signal-ink" : "text-muted hover:bg-signal/15 hover:text-signal-ink")}>
+      <div className={cx("flex h-10 items-center rounded-control transition-colors", active || open ? "bg-signal text-ink" : "text-muted hover:bg-signal hover:text-ink")}>
         <Link
           href={item.href}
           aria-current={active ? "page" : undefined}
@@ -210,7 +231,7 @@ function NavDropdown({ item, active }: { item: NavItemWithChildren; active: bool
               <Link
                 href={child.href}
                 onClick={() => setOpen(false)}
-                className="block rounded-control px-3 py-2.5 text-[0.9375rem] text-ink hover:bg-signal/15 hover:text-signal-ink"
+                className="block rounded-control px-3 py-2.5 text-[0.9375rem] text-ink hover:bg-signal hover:text-ink"
               >
                 {child.label}
               </Link>
