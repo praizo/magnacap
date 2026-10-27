@@ -49,7 +49,7 @@ export default function CareersPage() {
               We&apos;re looking for fresh talent.{" "}
               <span className="text-quiet">Build your career in Nigeria&apos;s markets.</span>
             </h1>
-            <p className="mt-6 max-w-[34rem] text-lead text-muted">
+            <p className="mt-6 max-w-136 text-lead text-muted">
               Join the team behind MagnaCap&apos;s brokerage, advisory and research desks. Send us your CV and
               cover letter.
             </p>
@@ -57,7 +57,7 @@ export default function CareersPage() {
               <ButtonLink href="#apply">Apply now</ButtonLink>
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-panel bg-mist lg:col-span-6 lg:aspect-[4/5]">
+          <div className="relative aspect-4/3 overflow-hidden rounded-panel bg-mist lg:col-span-6 lg:aspect-4/5">
             <Image
               src="/pages/careers-portrait.webp"
               alt="Two Black women sharing ideas while working on their laptops."
@@ -75,7 +75,7 @@ export default function CareersPage() {
         <Container className="py-16 lg:py-24">
           <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
             <SectionHeading id="values-title" eyebrow="What we value" title="How we work." className="lg:col-span-7" />
-            <p className="max-w-[30rem] text-lead text-muted lg:col-span-5">
+            <p className="max-w-120 text-lead text-muted lg:col-span-5">
               Five values shape how we trade, advise and treat each other. We hire people who share them.
             </p>
           </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { navigation } from "@/content/site";
+import { headerNavigation } from "@/content/site";
 import { cx, externalLinkProps } from "./ui";
 
 export function SiteHeader({ logo }: { logo: ReactNode }) {
@@ -23,6 +23,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  // A solid shared surface keeps the landing-menu appearance identical over every page.
   const floating = isHome || scrolled || open;
 
   // The menu panel starts at the header's current bottom edge rather than a fixed offset.
@@ -64,12 +65,8 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
       </a>
       {/* Logo and nav grouped left, one CTA right. Flat at the top of inner pages, a floating frosted panel otherwise. */}
       <div
-        className={cx(
-          "pointer-events-auto flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 transition-[background-color,border-color,backdrop-filter] duration-300 lg:ps-5",
-          floating
-            ? "border-line/70 bg-paper/80 backdrop-blur-xl backdrop-saturate-150"
-            : "border-transparent bg-transparent",
-        )}
+        data-floating={floating}
+        className="site-header-panel pointer-events-auto flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 transition-[background-color,border-color,backdrop-filter] duration-300 lg:ps-5"
       >
         <Link
           href="/"
@@ -82,7 +79,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
 
         <nav aria-label="Main" className="hidden flex-1 self-stretch lg:block">
           <ul className="flex h-full items-center gap-1">
-            {navigation.filter((item) => item.href !== "/contact").map((item) =>
+            {headerNavigation.map((item) =>
               "children" in item ? (
                 <NavDropdown key={item.href} item={item} active={isActive(item.href)} />
               ) : (
@@ -138,7 +135,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
       >
         <nav aria-label="Main mobile" className="px-(--gutter) pb-10">
           <ul>
-            {navigation.map((item) => (
+            {headerNavigation.map((item) => (
               <li key={item.href} className="border-b border-line">
                 <Link
                   href={item.href}
@@ -175,7 +172,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
   );
 }
 
-type NavItemWithChildren = Extract<(typeof navigation)[number], { children: unknown }>;
+type NavItemWithChildren = Extract<(typeof headerNavigation)[number], { children: unknown }>;
 
 /**
  * Desktop nav item with a dropdown: the label links to the page, the chevron
@@ -221,7 +218,7 @@ function NavDropdown({ item, active }: { item: NavItemWithChildren; active: bool
           </svg>
         </button>
       </div>
-      <div id={panelId} hidden={!open} className="absolute start-0 top-full pt-2">
+      <div id={panelId} hidden={!open} className="absolute inset-s-0 top-full pt-2">
         <ul className="w-64 rounded-panel border border-line bg-paper p-1.5">
           {item.children.map((child) => (
             <li key={child.href}>

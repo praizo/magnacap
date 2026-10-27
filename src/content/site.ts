@@ -67,19 +67,24 @@ export const navigation = [
   { href: "/contact", label: "Contact" },
 ] as const;
 
+/** Header menu: the footer's list with Careers swapped for Contact us (Careers stays in the footer). */
+export const headerNavigation = [
+  ...navigation.filter((item) => item.href !== "/careers" && item.href !== "/contact"),
+  { href: "/contact", label: "Contact us" },
+] as const;
+
 /**
- * Social accounts shown in the footer. MagnaCap's old site linked its icons to
- * "#", so these are LILY's verified accounts (from lily.ng). Replace or extend
- * with MagnaCap's own accounts when they exist.
+ * MagnaCap's social accounts, shown in the footer. Each href is "#" until the
+ * client supplies the real profile URL; swap them in here when they exist.
  */
 export const socials = {
-  owner: "LILY",
+  owner: "MagnaCap",
   links: [
-    { network: "LinkedIn", href: "https://www.linkedin.com/company/lilyfinancehq" },
-    { network: "X", href: "https://x.com/lilyfinancehq" },
-    { network: "Instagram", href: "https://www.instagram.com/lilyfinancehq" },
-    { network: "Facebook", href: "https://www.facebook.com/lilyfinancehq" },
-    { network: "TikTok", href: "https://www.tiktok.com/@lilyfinancehq" },
+    { network: "LinkedIn", href: "#" },
+    { network: "X", href: "#" },
+    { network: "Instagram", href: "#" },
+    { network: "Facebook", href: "#" },
+    { network: "TikTok", href: "#" },
   ],
 } as const;
 

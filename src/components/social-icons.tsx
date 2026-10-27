@@ -23,11 +23,18 @@ export function SocialIcons({ className }: { className?: string }) {
     <ul className={className} aria-label={`Follow ${socials.owner}`}>
       {socials.links.map((link) => (
         <li key={link.network}>
-          <a href={link.href} target="_blank" rel="noopener noreferrer" className="social-link" title={link.network}>
+          <a
+            href={link.href}
+            {...(link.href === "#" ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+            className="social-link"
+            title={link.network}
+          >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="currentColor">
               {glyphs[link.network]}
             </svg>
-            <span className="sr-only">{link.network} ({socials.owner}, opens in a new tab)</span>
+            <span className="sr-only">
+              {link.network} ({socials.owner}{link.href === "#" ? "" : ", opens in a new tab"})
+            </span>
           </a>
         </li>
       ))}

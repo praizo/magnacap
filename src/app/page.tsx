@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { AdvantageSection } from "@/components/advantage-section";
 import { ClienteleSlider } from "@/components/clientele-grid";
 import { PartnerMarquee } from "@/components/partner-marquee";
 import { ServiceCards } from "@/components/service-cards";
 import { AppleIcon, PlayIcon } from "@/components/lily";
 import { SectionHeading, resolvePublicImage } from "@/components/sections";
-import { ArrowIcon, ButtonLink, Container, Label, cx } from "@/components/ui";
+import { ArrowIcon, ButtonLink, Container, Label } from "@/components/ui";
 import { partnerLogos } from "@/content/partner-logos";
-import { advantages, partners } from "@/content/site";
+import { partners } from "@/content/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -96,30 +97,10 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* The MagnaCap advantage: one full-bleed dark canvas */}
+      {/* The MagnaCap advantage: a typographic wall of the five advantages */}
       <section aria-labelledby="advantage-title" className="on-dark bg-slate-deep text-on-slate">
-        <Container className="py-16 lg:py-24">
-          <SectionHeading
-            id="advantage-title"
-            tone="dark"
-            eyebrow="The MagnaCap advantage"
-            title="Execution clients can rely on."
-            quiet="Fast, discreet and well informed."
-          />
-          <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-5">
-            {advantages.map((item, i) => (
-              <li
-                key={item.title}
-                className={cx(
-                  "border-t border-on-slate-line py-7 sm:pr-6 lg:border-l lg:border-t-0 lg:px-6 lg:py-2",
-                  i === 0 && "lg:border-l-0 lg:pl-0",
-                )}
-              >
-                <h3 className="text-xl font-medium tracking-[-0.015em]">{item.title}</h3>
-                <p className="mt-3 text-[1.0625rem] leading-relaxed text-on-slate-muted">{item.body}</p>
-              </li>
-            ))}
-          </ul>
+        <Container className="py-16 lg:py-28">
+          <AdvantageSection />
         </Container>
       </section>
 

@@ -25,7 +25,7 @@ export default function InsightsPage() {
               Stay sharp with our reports.{" "}
               <span className="text-quiet">Delivered to your inbox.</span>
             </h1>
-            <p className="mt-6 max-w-[34rem] text-lead text-muted">
+            <p className="mt-6 max-w-136 text-lead text-muted">
               Subscribe for timely market insight, economic forecasts and sector analysis from our team.
             </p>
             <div className="mt-8 text-ink">
@@ -35,7 +35,7 @@ export default function InsightsPage() {
               <ButtonLink href="#subscribe">Subscribe now</ButtonLink>
             </div>
           </div>
-          <div className="relative aspect-[4/5] overflow-clip rounded-panel bg-mist lg:col-span-6">
+          <div className="relative aspect-4/5 overflow-clip rounded-panel bg-mist lg:col-span-6">
             <Image
               src="/pages/insights-portrait.webp"
               alt="A financial analyst reviewing printed reports beside market charts."
