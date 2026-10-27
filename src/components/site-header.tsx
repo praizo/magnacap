@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { headerNavigation } from "@/content/site";
+import { contact, headerNavigation } from "@/content/site";
 import { cx, externalLinkProps } from "./ui";
 
 export function SiteHeader({ logo }: { logo: ReactNode }) {
@@ -66,7 +66,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
       {/* Logo and nav grouped left, one CTA right. Flat at the top of inner pages, a floating frosted panel otherwise. */}
       <div
         data-floating={floating}
-        className="site-header-panel pointer-events-auto flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 transition-[background-color,border-color,backdrop-filter] duration-300 lg:ps-5"
+        className="site-header-panel pointer-events-auto relative z-10 flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 transition-[background-color,border-color,backdrop-filter] duration-300 lg:ps-5"
       >
         <Link
           href="/"
@@ -127,13 +127,16 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
         </button>
       </div>
 
+      {/* Mobile menu: a full-screen sheet behind the bar (the bar sits above it on z-10).
+          It must opt back into pointer events, since the header itself ignores them
+          so the floating bar never blocks the page. */}
       <div
         id={menuId}
         hidden={!open}
-        style={{ insetBlockStart: menuTop }}
-        className="fixed inset-x-0 bottom-0 overflow-y-auto border-t border-line bg-paper lg:hidden"
+        style={{ paddingBlockStart: menuTop }}
+        className="mobile-menu pointer-events-auto fixed inset-0 flex flex-col overflow-y-auto bg-paper lg:hidden"
       >
-        <nav aria-label="Main mobile" className="px-(--gutter) pb-10">
+        <nav aria-label="Main mobile" className="flex-1 px-(--gutter) pbs-4">
           <ul>
             {headerNavigation.map((item) => (
               <li key={item.href} className="border-b border-line">
@@ -143,20 +146,25 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
                   aria-current={isActive(item.href) ? "page" : undefined}
                   onClick={() => setOpen(false)}
                   className={cx(
-                    "flex items-center justify-between py-5 text-2xl tracking-[-0.02em]",
+                    "flex items-center gap-3 py-4 text-[1.75rem] font-medium tracking-tight",
                     isActive(item.href) ? "text-ink" : "text-muted",
                   )}
                 >
+                  <span
+                    aria-hidden="true"
+                    className={cx("size-2 flex-none rounded-full", isActive(item.href) ? "bg-signal" : "bg-transparent")}
+                  />
                   {item.label}
-                  {isActive(item.href) && (
-                    <span aria-hidden="true" className="size-2 bg-signal" />
-                  )}
                 </Link>
                 {"children" in item && (
-                  <ul className="-mt-2 pb-4">
+                  <ul className="grid grid-cols-2 gap-2 pbe-4 ps-5">
                     {item.children.map((child) => (
                       <li key={child.href}>
-                        <Link href={child.href} onClick={() => setOpen(false)} className="block py-2 ps-4 text-lg text-muted hover:text-signal-ink">
+                        <Link
+                          href={child.href}
+                          onClick={() => setOpen(false)}
+                          className="block rounded-control bg-mist px-3 py-2.5 text-[0.9375rem] text-ink"
+                        >
                           {child.label}
                         </Link>
                       </li>
@@ -167,6 +175,24 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
             ))}
           </ul>
         </nav>
+
+        <div className="sticky bottom-0 space-y-4 border-t border-line bg-paper px-(--gutter) pbs-5 pbe-[max(1.25rem,env(safe-area-inset-bottom))]">
+          <Link
+            href="/contact"
+            onClick={() => setOpen(false)}
+            className="flex h-12 items-center justify-center rounded-control bg-signal font-semibold text-ink"
+          >
+            Get started
+          </Link>
+          <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 text-sm text-muted">
+            <a href={`tel:${contact.phones[0].tel}`} className="tabular underline-offset-4 hover:underline">
+              {contact.phones[0].display}
+            </a>
+            <a href={`mailto:${contact.email}`} className="underline-offset-4 hover:underline">
+              {contact.email}
+            </a>
+          </div>
+        </div>
       </div>
     </header>
   );
