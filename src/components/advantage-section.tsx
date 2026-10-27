@@ -115,7 +115,7 @@ export function AdvantageSection() {
                 const photo = photos[item.title];
                 return (
                   <li key={item.title}>
-                    <div className="advantage-mobile-image relative mbe-5 aspect-[16/10] overflow-clip rounded-panel bg-slate">
+                    <div className="advantage-mobile-image relative mbe-5 aspect-16/10 overflow-clip rounded-panel bg-slate">
                       <Image src={photo.src} alt={photo.alt} fill unoptimized className="object-cover" style={{ objectPosition: photo.position }} />
                     </div>
                     <h3>
@@ -138,7 +138,7 @@ export function AdvantageSection() {
           </div>
 
           <div className="advantage-visual lg:col-span-5" aria-hidden="true">
-            <div className="relative aspect-[4/3] overflow-clip rounded-panel bg-slate">
+            <div className="relative aspect-4/3 overflow-clip rounded-panel bg-slate">
               {advantages.map((item, i) => {
                 const photo = photos[item.title];
                 return <Image key={item.title} src={photo.src} alt="" fill unoptimized className={cx("advantage-photo object-cover", i === active && "is-active")} style={{ objectPosition: photo.position }} />;

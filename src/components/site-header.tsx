@@ -9,9 +9,8 @@ import { cx, externalLinkProps } from "./ui";
 export function SiteHeader({ logo }: { logo: ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [menuTop, setMenuTop] = useState(0);
   const [scrolled, setScrolled] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDetailsElement>(null);
   const menuId = useId();
   const isHome = pathname === "/";
 
@@ -26,31 +25,51 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
   // A solid shared surface keeps the landing-menu appearance identical over every page.
   const floating = isHome || scrolled || open;
 
-  // The menu panel starts at the header's current bottom edge rather than a fixed offset.
-  const toggleMenu = () => {
-    if (!open) setMenuTop(headerRef.current?.getBoundingClientRect().bottom ?? 0);
-    setOpen((value) => !value);
+  const closeMenu = () => {
+    if (menuRef.current) menuRef.current.open = false;
   };
 
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Tab") {
+        const header = menuRef.current?.closest("header");
+        const controls = Array.from(header?.querySelectorAll<HTMLElement>(
+          ".site-header-panel a, .mobile-navigation summary, .mobile-navigation a",
+        ) ?? []).filter((element) => element.getClientRects().length > 0);
+        const first = controls[0];
+        const last = controls.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+      if (event.key === "Escape") {
+        if (menuRef.current) menuRef.current.open = false;
+        menuRef.current?.querySelector("summary")?.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
+    return () => document.removeEventListener("keydown", onKey);
   }, [open]);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const closeOnDesktop = () => {
+      if (desktop.matches && menuRef.current) menuRef.current.open = false;
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <header
-      ref={headerRef}
       className={cx(
         "pointer-events-none sticky top-0 z-40 h-24 px-(--gutter) pbs-4 lg:px-[clamp(1rem,5vw,4.5rem)]",
         // Home: overlay the full-bleed hero photograph; elsewhere the bar keeps its own space.
@@ -72,7 +91,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
           href="/"
           className="shrink-0"
           aria-label="MagnaCap home"
-          onClick={() => setOpen(false)}
+          onClick={closeMenu}
         >
           {logo}
         </Link>
@@ -108,93 +127,93 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
         >
           Get started
         </Link>
-
-        <button
-          type="button"
-          className="ms-auto inline-flex items-center gap-2 px-2 py-2 text-sm font-medium text-ink lg:hidden"
-          aria-expanded={open}
-          aria-controls={menuId}
-          onClick={toggleMenu}
-        >
-          <span>{open ? "Close" : "Menu"}</span>
-          <svg aria-hidden="true" viewBox="0 0 20 20" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5">
-            {open ? (
-              <path d="M5 5l10 10M15 5L5 15" />
-            ) : (
-              <path d="M3 7h14M3 13h14" />
-            )}
-          </svg>
-        </button>
       </div>
 
-      {/* Mobile menu: a full-screen sheet behind the bar (the bar sits above it on z-10).
-          It must opt back into pointer events, since the header itself ignores them
-          so the floating bar never blocks the page. */}
-      <div
-        id={menuId}
-        hidden={!open}
-        style={{ paddingBlockStart: menuTop }}
-        className="mobile-menu pointer-events-auto fixed inset-0 flex flex-col overflow-y-auto bg-paper lg:hidden"
+      {/* Native disclosure works before hydration, with the sheet behind the floating bar. */}
+      <details
+        ref={menuRef}
+        className="mobile-navigation lg:hidden"
+        onToggle={(event) => {
+          if (event.target === event.currentTarget) setOpen(event.currentTarget.open);
+        }}
       >
-        <nav aria-label="Main mobile" className="flex-1 px-(--gutter) pbs-4">
-          <ul>
-            {headerNavigation.map((item) => (
-              <li key={item.href} className="border-b border-line">
-                <Link
-                  href={item.href}
-                  {...externalLinkProps(item.href)}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  onClick={() => setOpen(false)}
-                  className={cx(
-                    "flex items-center gap-3 py-4 text-[1.75rem] font-medium tracking-tight",
-                    isActive(item.href) ? "text-ink" : "text-muted",
+        <summary className="mobile-menu-toggle" aria-controls={menuId}>
+          <span className="mobile-menu-closed-label">Menu</span>
+          <span className="mobile-menu-open-label">Close</span>
+          <span className="mobile-menu-icon" aria-hidden="true">
+            <span />
+            <span />
+          </span>
+        </summary>
+        <div id={menuId} className="mobile-menu on-dark">
+          <nav aria-label="Main mobile" className="mobile-menu-body">
+            <p className="mobile-menu-eyebrow">Explore MagnaCap</p>
+            <ul className="mobile-menu-links">
+              {headerNavigation.map((item) => (
+                <li key={item.href}>
+                  {"children" in item ? (
+                    <details className="mobile-services">
+                      <summary className="mobile-menu-link" data-active={isActive(item.href)}>
+                        <span>{item.label}</span>
+                        <span className="mobile-services-icon" aria-hidden="true" />
+                      </summary>
+                      <ul className="mobile-services-links">
+                        <li>
+                          <Link href={item.href} onClick={closeMenu} className="mobile-service-overview">
+                            All services <MenuArrow />
+                          </Link>
+                        </li>
+                        {item.children.map((child) => (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              onClick={closeMenu}
+                              aria-current={pathname === child.href ? "page" : undefined}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      {...externalLinkProps(item.href)}
+                      aria-current={isActive(item.href) ? "page" : undefined}
+                      onClick={closeMenu}
+                      className="mobile-menu-link"
+                    >
+                      <span>{item.label}</span>
+                      <MenuArrow external={item.href.startsWith("https://")} />
+                    </Link>
                   )}
-                >
-                  <span
-                    aria-hidden="true"
-                    className={cx("size-2 flex-none rounded-full", isActive(item.href) ? "bg-signal" : "bg-transparent")}
-                  />
-                  {item.label}
-                </Link>
-                {"children" in item && (
-                  <ul className="grid grid-cols-2 gap-2 pbe-4 ps-5">
-                    {item.children.map((child) => (
-                      <li key={child.href}>
-                        <Link
-                          href={child.href}
-                          onClick={() => setOpen(false)}
-                          className="block rounded-control bg-mist px-3 py-2.5 text-[0.9375rem] text-ink"
-                        >
-                          {child.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="sticky bottom-0 space-y-4 border-t border-line bg-paper px-(--gutter) pbs-5 pbe-[max(1.25rem,env(safe-area-inset-bottom))]">
-          <Link
-            href="/contact"
-            onClick={() => setOpen(false)}
-            className="flex h-12 items-center justify-center rounded-control bg-signal font-semibold text-ink"
-          >
-            Get started
-          </Link>
-          <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 text-sm text-muted">
-            <a href={`tel:${contact.phones[0].tel}`} className="tabular underline-offset-4 hover:underline">
-              {contact.phones[0].display}
-            </a>
-            <a href={`mailto:${contact.email}`} className="underline-offset-4 hover:underline">
-              {contact.email}
-            </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="mobile-menu-footer">
+            <Link href="/contact" onClick={closeMenu} className="mobile-menu-cta">
+              Get started <MenuArrow />
+            </Link>
+            <div className="mobile-menu-contact">
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              <a href={`tel:${contact.phones[0].tel}`} className="tabular">
+                {contact.phones[0].display}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </details>
     </header>
+  );
+}
+
+function MenuArrow({ external = false }: { external?: boolean }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="mobile-menu-arrow" fill="none" stroke="currentColor" strokeWidth="1.25">
+      <path d={external ? "M6 18 18 6M6 6h12v12" : "M4 12h15m-6-6 6 6-6 6"} />
+    </svg>
   );
 }
 
