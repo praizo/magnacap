@@ -1195,7 +1195,9 @@ button:active {
   border-radius: 999px;
   border: 1px solid var(--color-on-slate-line);
   color: var(--color-on-slate);
-  transition: color 200ms ease, border-color 200ms ease;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease;
 }
 @media (hover: hover) and (pointer: fine) {
   .social-link:hover {
@@ -1424,42 +1426,104 @@ button:active {
 }
 
 /* Original Advantage composition, enhanced with measured scroll switching. */
-.advantage-original-list > li + li { margin-block-start: 2.5rem; }
-.advantage-select, .advantage-visual { display: none; }
+.advantage-original-list > li + li {
+  margin-block-start: 2.5rem;
+}
+.advantage-select,
+.advantage-visual {
+  display: none;
+}
 .advantage-line {
   font-size: clamp(2rem, 1rem + 4.2vw, 4.75rem);
   font-weight: 500;
   line-height: 1.04;
   letter-spacing: -0.035em;
 }
-.advantage-select:focus-visible { outline-offset: 6px; }
-.advantage-select:active { color: var(--color-signal); }
-.advantage-photo, .advantage-note { opacity: 0; }
-.advantage-photo.is-active, .advantage-note.is-active { opacity: 1; }
+.advantage-select:focus-visible {
+  outline-offset: 6px;
+}
+.advantage-select:active {
+  color: var(--color-signal);
+}
+.advantage-photo,
+.advantage-note {
+  opacity: 0;
+}
+.advantage-photo.is-active,
+.advantage-note.is-active {
+  opacity: 1;
+}
 .advantage-experience[data-enhanced="true"] .advantage-stage {
   display: flex;
   align-items: center;
   min-block-size: calc(100svh - 8.5rem);
 }
-.advantage-experience[data-enhanced="true"] .advantage-original-list > li + li { margin-block-start: 0.25rem; }
-.advantage-experience[data-enhanced="true"] :is(.advantage-mobile-image, .advantage-static-title) { display: none; }
-.advantage-experience[data-enhanced="true"] .advantage-select { display: inline; }
-.advantage-experience[data-enhanced="true"] .advantage-visual { display: block; }
+.advantage-experience[data-enhanced="true"] .advantage-original-list > li + li {
+  margin-block-start: 0.25rem;
+}
+.advantage-experience[data-enhanced="true"]
+  :is(.advantage-mobile-image, .advantage-static-title) {
+  display: none;
+}
+.advantage-experience[data-enhanced="true"] .advantage-select {
+  display: inline;
+}
+.advantage-experience[data-enhanced="true"] .advantage-visual {
+  display: block;
+}
 .advantage-experience[data-enhanced="true"] .advantage-summary {
-  position: absolute; inline-size: 1px; block-size: 1px; padding: 0; margin: -1px; overflow: clip; clip-path: inset(50%); white-space: nowrap;
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: clip;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .advantage-select { transition: color 200ms var(--ease-out); }
-  .advantage-photo, .advantage-note { transition: opacity 280ms var(--ease-out); }
+  .advantage-select {
+    transition: color 200ms var(--ease-out);
+  }
+  .advantage-photo,
+  .advantage-note {
+    transition: opacity 280ms var(--ease-out);
+  }
 }
 
-/* Match the original desktop layout before hydration, avoiding an initial tall-list jump. */
-@media (min-width: 64rem) and (min-height: 44rem) and (prefers-reduced-motion: no-preference) {
-  .advantage-stage { display: flex; align-items: center; min-block-size: calc(100svh - 8.5rem); }
-  .advantage-mobile-image { display: none; }
-  .advantage-visual { display: block; }
-  .advantage-original-list > li + li { margin-block-start: 0.25rem; }
-  .advantage-summary { position: absolute; inline-size: 1px; block-size: 1px; padding: 0; margin: -1px; overflow: clip; clip-path: inset(50%); white-space: nowrap; }
+/* Match the original desktop layout before hydration, avoiding an initial tall-list jump.
+   Keep this query in sync with AdvantageSection; short laptop viewports scale the lines and photo to fit the pin. */
+@media (min-width: 64rem) and (min-height: 36rem) {
+  .advantage-stage {
+    display: flex;
+    align-items: center;
+    min-block-size: calc(100svh - 8.5rem);
+  }
+  .advantage-line {
+    font-size: min(clamp(2rem, 1rem + 4.2vw, 4.75rem), 8.5svh);
+  }
+  .advantage-frame {
+    max-block-size: 48svh;
+  }
+  .advantage-mobile-image {
+    display: none;
+  }
+  .advantage-visual {
+    display: block;
+  }
+  .advantage-original-list > li + li {
+    margin-block-start: 0.25rem;
+  }
+  .advantage-summary {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: clip;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 /* Mobile navigation: a slate brand field beneath the shared floating header. */
@@ -1487,11 +1551,21 @@ button:active {
   pointer-events: auto;
 }
 .mobile-menu-toggle::-webkit-details-marker,
-.mobile-services > summary::-webkit-details-marker { display: none; }
-.mobile-menu-toggle:active { color: var(--color-signal-ink); }
-.mobile-menu-open-label { display: none; }
-.mobile-navigation[open] .mobile-menu-open-label { display: inline; }
-.mobile-navigation[open] .mobile-menu-closed-label { display: none; }
+.mobile-services > summary::-webkit-details-marker {
+  display: none;
+}
+.mobile-menu-toggle:active {
+  color: var(--color-signal-ink);
+}
+.mobile-menu-open-label {
+  display: none;
+}
+.mobile-navigation[open] .mobile-menu-open-label {
+  display: inline;
+}
+.mobile-navigation[open] .mobile-menu-closed-label {
+  display: none;
+}
 .mobile-menu-icon {
   display: grid;
   align-content: center;
@@ -1544,7 +1618,9 @@ button:active {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.mobile-menu-links > li { border-block-end: 1px solid var(--color-on-slate-line); }
+.mobile-menu-links > li {
+  border-block-end: 1px solid var(--color-on-slate-line);
+}
 .mobile-menu-link {
   display: flex;
   align-items: center;
@@ -1575,7 +1651,9 @@ button:active {
   inline-size: 1.5rem;
   block-size: 1.5rem;
 }
-.mobile-menu-link > .mobile-menu-arrow { color: var(--color-on-slate-muted); }
+.mobile-menu-link > .mobile-menu-arrow {
+  color: var(--color-on-slate-muted);
+}
 .mobile-services-icon {
   position: relative;
   flex: none;
@@ -1591,9 +1669,15 @@ button:active {
   block-size: 1px;
   background: currentColor;
 }
-.mobile-services-icon::after { rotate: 90deg; }
-.mobile-services[open] .mobile-services-icon::after { rotate: 0deg; }
-.mobile-services-links { padding-block: 0.25rem 1rem; }
+.mobile-services-icon::after {
+  rotate: 90deg;
+}
+.mobile-services[open] .mobile-services-icon::after {
+  rotate: 0deg;
+}
+.mobile-services-links {
+  padding-block: 0.25rem 1rem;
+}
 .mobile-services-links a {
   display: flex;
   align-items: center;
@@ -1610,7 +1694,11 @@ button:active {
   background: color-mix(in oklch, var(--color-on-slate) 8%, transparent);
   color: var(--color-on-slate);
 }
-.mobile-services-links [aria-current="page"] { color: var(--color-on-slate); text-decoration: underline; text-underline-offset: 0.25em; }
+.mobile-services-links [aria-current="page"] {
+  color: var(--color-on-slate);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
 .mobile-menu-footer {
   flex: none;
   padding: 1rem var(--menu-inset) max(1.25rem, env(safe-area-inset-bottom, 0px));
@@ -1639,24 +1727,48 @@ button:active {
   color: var(--color-on-slate-muted);
   font-size: 0.75rem;
 }
-.mobile-menu-contact a { display: inline-flex; align-items: center; min-block-size: 2.75rem; }
-.mobile-menu :is(a, summary):active { color: var(--color-on-slate); }
-.mobile-menu-link:active { background: color-mix(in oklch, var(--color-on-slate) 8%, transparent); }
-.mobile-menu .mobile-menu-cta:active { background: var(--color-signal-hover); color: var(--color-ink); }
+.mobile-menu-contact a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+}
+.mobile-menu :is(a, summary):active {
+  color: var(--color-on-slate);
+}
+.mobile-menu-link:active {
+  background: color-mix(in oklch, var(--color-on-slate) 8%, transparent);
+}
+.mobile-menu .mobile-menu-cta:active {
+  background: var(--color-signal-hover);
+  color: var(--color-ink);
+}
 @media (hover: hover) and (pointer: fine) {
   .mobile-menu-link:hover,
   .mobile-services-links a:hover,
-  .mobile-menu-contact a:hover { color: var(--color-on-slate-muted); }
-  .mobile-services-links a:hover { background: color-mix(in oklch, var(--color-on-slate) 8%, transparent); color: var(--color-on-slate); }
-  .mobile-menu-contact a:hover { color: var(--color-on-slate); }
-  .mobile-menu-cta:hover { background: var(--color-signal-hover); }
+  .mobile-menu-contact a:hover {
+    color: var(--color-on-slate-muted);
+  }
+  .mobile-services-links a:hover {
+    background: color-mix(in oklch, var(--color-on-slate) 8%, transparent);
+    color: var(--color-on-slate);
+  }
+  .mobile-menu-contact a:hover {
+    color: var(--color-on-slate);
+  }
+  .mobile-menu-cta:hover {
+    background: var(--color-signal-hover);
+  }
 }
 @media (max-width: 63.99rem) {
-  html:has(.mobile-navigation[open]) { overflow: hidden; }
+  html:has(.mobile-navigation[open]) {
+    overflow: hidden;
+  }
 }
 @media (prefers-reduced-motion: no-preference) {
   .mobile-menu-icon > span {
-    transition: translate 240ms var(--menu-ease), rotate 240ms var(--menu-ease);
+    transition:
+      translate 240ms var(--menu-ease),
+      rotate 240ms var(--menu-ease);
   }
   .mobile-navigation::details-content {
     transition: content-visibility var(--menu-duration) allow-discrete;
@@ -1668,34 +1780,67 @@ button:active {
       opacity var(--menu-duration) var(--menu-ease),
       visibility var(--menu-duration) allow-discrete;
   }
-  .mobile-navigation[open] .mobile-menu { clip-path: inset(0); }
+  .mobile-navigation[open] .mobile-menu {
+    clip-path: inset(0);
+  }
   @starting-style {
-    .mobile-navigation[open] .mobile-menu { opacity: 0; clip-path: inset(0 0 100%); }
+    .mobile-navigation[open] .mobile-menu {
+      opacity: 0;
+      clip-path: inset(0 0 100%);
+    }
   }
   .mobile-navigation[open] .mobile-menu-links > li,
   .mobile-navigation[open] .mobile-menu-eyebrow,
   .mobile-navigation[open] .mobile-menu-footer {
     animation: mobile-menu-item-in 300ms var(--menu-ease) both;
   }
-  .mobile-navigation[open] .mobile-menu-links > li:nth-child(1) { animation-delay: 55ms; }
-  .mobile-navigation[open] .mobile-menu-links > li:nth-child(2) { animation-delay: 85ms; }
-  .mobile-navigation[open] .mobile-menu-links > li:nth-child(3) { animation-delay: 115ms; }
-  .mobile-navigation[open] .mobile-menu-links > li:nth-child(4) { animation-delay: 145ms; }
-  .mobile-navigation[open] .mobile-menu-links > li:nth-child(5) { animation-delay: 175ms; }
-  .mobile-navigation[open] .mobile-menu-footer { animation-delay: 195ms; }
-  .mobile-services { interpolate-size: allow-keywords; }
+  .mobile-navigation[open] .mobile-menu-links > li:nth-child(1) {
+    animation-delay: 55ms;
+  }
+  .mobile-navigation[open] .mobile-menu-links > li:nth-child(2) {
+    animation-delay: 85ms;
+  }
+  .mobile-navigation[open] .mobile-menu-links > li:nth-child(3) {
+    animation-delay: 115ms;
+  }
+  .mobile-navigation[open] .mobile-menu-links > li:nth-child(4) {
+    animation-delay: 145ms;
+  }
+  .mobile-navigation[open] .mobile-menu-links > li:nth-child(5) {
+    animation-delay: 175ms;
+  }
+  .mobile-navigation[open] .mobile-menu-footer {
+    animation-delay: 195ms;
+  }
+  .mobile-services {
+    interpolate-size: allow-keywords;
+  }
   .mobile-services::details-content {
     block-size: 0;
     overflow: clip;
-    transition: block-size 240ms var(--menu-ease), content-visibility 240ms allow-discrete;
+    transition:
+      block-size 240ms var(--menu-ease),
+      content-visibility 240ms allow-discrete;
   }
-  .mobile-services[open]::details-content { block-size: auto; }
-  .mobile-services-icon::after { transition: rotate 200ms var(--menu-ease); }
+  .mobile-services[open]::details-content {
+    block-size: auto;
+  }
+  .mobile-services-icon::after {
+    transition: rotate 200ms var(--menu-ease);
+  }
   .mobile-menu :is(a, summary) {
-    transition: color var(--menu-feedback) var(--menu-ease), background-color var(--menu-feedback) var(--menu-ease);
+    transition:
+      color var(--menu-feedback) var(--menu-ease),
+      background-color var(--menu-feedback) var(--menu-ease);
   }
 }
 @keyframes mobile-menu-item-in {
-  from { opacity: 0; translate: 0 0.75rem; }
-  to { opacity: 1; translate: 0 0; }
+  from {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
 }

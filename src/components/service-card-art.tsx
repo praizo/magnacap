@@ -4,7 +4,7 @@ import type { ServiceSlug } from "@/content/services";
 /*
  * Compact versions of the /services illustrations, drawn for the 16:10 cards
  * that link between services. Each motif is centred inside a 28px safe area of
- * a 320 × 200 frame (the panel draws the dot grid), so nothing is cropped at any width.
+ * a 320 × 200 frame, so nothing is cropped at any width.
  * Colours come from the card's --svc-art-a / --svc-art-b; decorative only.
  */
 

@@ -152,10 +152,7 @@
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: clip;
-  /* A faint dot grid in the art's own tone, as on the site's diagram canvases. */
-  background:
-    radial-gradient(color-mix(in oklch, var(--svc-art-a) 55%, transparent) 1.25px, transparent 1.25px) 0 0 / 16px 16px,
-    var(--svc-panel);
+  background: var(--svc-panel);
 }
 .other-service-art svg {
   position: absolute;

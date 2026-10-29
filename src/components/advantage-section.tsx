@@ -49,8 +49,11 @@ export function AdvantageSection() {
     let disposed = false;
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
-    // A short viewport, touch layout or reduced-motion preference gets the readable static list.
-    media.add("(min-width: 64rem) and (min-height: 44rem) and (prefers-reduced-motion: no-preference)", () => {
+    // Touch layouts and very short viewports get the readable static list. Reduced motion keeps the
+    // slider (Windows reports it whenever animation effects are off) but drops the animated snap.
+    media.add({ enhanced: "(min-width: 64rem) and (min-height: 36rem)", reduce: "(prefers-reduced-motion: reduce)" }, (context) => {
+      if (!context.conditions?.enhanced) return;
+      const reduce = Boolean(context.conditions.reduce);
       root.dataset.enhanced = "true";
       let selected = 0;
       const last = advantages.length - 1;
@@ -68,14 +71,16 @@ export function AdvantageSection() {
         pin: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-        snap: {
-          snapTo: 1 / last,
-          directional: false,
-          inertia: false,
-          delay: 0.16,
-          duration: { min: 0.18, max: 0.32 },
-          ease: "power2.out",
-        },
+        snap: reduce
+          ? undefined
+          : {
+              snapTo: 1 / last,
+              directional: false,
+              inertia: false,
+              delay: 0.16,
+              duration: { min: 0.18, max: 0.32 },
+              ease: "power2.out",
+            },
         onUpdate: (self) => update(self.progress),
         onRefresh: (self) => update(self.progress, true),
       });
@@ -138,7 +143,7 @@ export function AdvantageSection() {
           </div>
 
           <div className="advantage-visual lg:col-span-5" aria-hidden="true">
-            <div className="relative aspect-4/3 overflow-clip rounded-panel bg-slate">
+            <div className="advantage-frame relative aspect-4/3 overflow-clip rounded-panel bg-slate">
               {advantages.map((item, i) => {
                 const photo = photos[item.title];
                 return <Image key={item.title} src={photo.src} alt="" fill unoptimized className={cx("advantage-photo object-cover", i === active && "is-active")} style={{ objectPosition: photo.position }} />;
