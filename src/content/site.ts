@@ -62,7 +62,7 @@ export const navigation = [
   },
   /* LILY lives on its own site; external links open in a new tab. */
   { href: lily.website, label: "LILY" },
-  { href: "/insights", label: "Market insights" },
+  { href: "/insights", label: "Market Insights" },
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
 ] as const;
@@ -70,7 +70,7 @@ export const navigation = [
 /** Header menu: the footer's list with Careers swapped for Contact us (Careers stays in the footer). */
 export const headerNavigation = [
   ...navigation.filter((item) => item.href !== "/careers" && item.href !== "/contact"),
-  { href: "/contact", label: "Contact us" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 /**

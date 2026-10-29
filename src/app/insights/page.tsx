@@ -7,7 +7,7 @@ import { ButtonLink, Container } from "@/components/ui";
 import { company, reportTypes } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Market insights",
+  title: "Market Insights",
   description:
     "Subscribe to MagnaCap's market, macroeconomic, company and sector-specific reports.",
   alternates: { canonical: "/insights" },
