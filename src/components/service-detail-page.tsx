@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { instrumentIcons } from "@/components/instrument-icons";
-import { AdvisoryArt, BrokerageArt, CustodyArt, TradingArt, VaultArt } from "@/components/service-cards";
 import { ServiceBand } from "@/components/service-band";
+import { serviceCardArt } from "@/components/service-card-art";
 import { PageHeader, SectionHeading } from "@/components/sections";
 import { ArrowIcon, ButtonLink, Container } from "@/components/ui";
+import { SwipeList } from "@/components/swipe-list";
 import { VenueMarks } from "@/components/venue-marks";
 import { advisoryServices, instruments } from "@/content/site";
-import { serviceHref, servicePages, services, type ServiceSlug } from "@/content/services";
+import { serviceHref, servicePages, services } from "@/content/services";
 import "./service-detail.css";
 
 /** Metadata for a dedicated service page. */
@@ -20,15 +20,6 @@ export function serviceMetadata(slug: (typeof servicePages)[number]["slug"]): Me
     alternates: { canonical: serviceHref(service.slug) },
   };
 }
-
-/** The same illustrations the /services overview uses for each service. */
-const serviceArt: Record<ServiceSlug, ReactNode> = {
-  brokerage: BrokerageArt,
-  "investment-advisory": AdvisoryArt,
-  trading: TradingArt,
-  "custodian-services": VaultArt,
-  research: CustodyArt,
-};
 
 /** Advisory offerings with a description of their own; the rest are listed under the band. */
 const describedOfferings = advisoryServices.filter((item) => item.body);
@@ -122,11 +113,11 @@ export function ServiceDetailPage({ slug }: { slug: (typeof servicePages)[number
             <SectionHeading id="other-services-title" eyebrow="Our services" title="Explore our" quiet="other services." />
             <ButtonLink href="/services" variant="text">View all services</ButtonLink>
           </div>
-          <ul className="other-services" aria-label="Other services">
+          <SwipeList className="other-services" label="Other services">
             {others.map((item) => (
               <li key={item.slug}>
                 <Link href={serviceHref(item.slug)} className="other-service group" data-service={item.slug}>
-                  <span className="other-service-art" aria-hidden="true">{serviceArt[item.slug]}</span>
+                  <span className="other-service-art" aria-hidden="true">{serviceCardArt[item.slug]}</span>
                   <span className="other-service-body">
                     <span className="flex items-center justify-between gap-3 text-xl font-medium tracking-[-0.015em] text-ink">
                       {item.title}
@@ -137,7 +128,7 @@ export function ServiceDetailPage({ slug }: { slug: (typeof servicePages)[number
                 </Link>
               </li>
             ))}
-          </ul>
+          </SwipeList>
         </Container>
       </section>
     </>

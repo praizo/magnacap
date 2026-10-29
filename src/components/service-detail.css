@@ -118,6 +118,17 @@
     scroll-snap-align: start;
   }
 }
+/* Position dots under the phone carousel; the grid needs none. */
+.swipe-dots {
+  display: flex;
+  justify-content: center;
+  margin-block-start: 1.25rem;
+}
+@media (min-width: 40rem) {
+  .swipe-dots {
+    display: none;
+  }
+}
 @media (min-width: 40rem) {
   .other-services {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -141,14 +152,20 @@
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: clip;
-  background: var(--svc-panel);
+  /* A faint dot grid in the art's own tone, as on the site's diagram canvases. */
+  background:
+    radial-gradient(color-mix(in oklch, var(--svc-art-a) 55%, transparent) 1.25px, transparent 1.25px) 0 0 / 16px 16px,
+    var(--svc-panel);
 }
 .other-service-art svg {
   position: absolute;
   inset: 0;
   inline-size: 100%;
   block-size: 100%;
-  transform-origin: 50% 100%;
+}
+.card-art-motif {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
 }
 .other-service-body {
   display: block;
@@ -184,15 +201,15 @@
   .other-service:hover {
     border-color: var(--color-slate);
   }
-  .other-service:hover .other-service-art svg {
-    scale: 1.04;
+  .other-service:hover .card-art-motif {
+    scale: 1.06;
   }
 }
 @media (prefers-reduced-motion: no-preference) {
   .other-service {
     transition: border-color var(--duration-fast) var(--ease-out);
   }
-  .other-service-art svg {
+  .card-art-motif {
     transition: scale 260ms var(--ease-reveal);
   }
 }
