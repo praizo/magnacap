@@ -4,9 +4,9 @@ import type { ReactNode } from "react";
 import { BrandEmblem } from "@/components/brand-emblem";
 import { ClienteleRow } from "@/components/clientele-grid";
 import { PageHeader } from "@/components/sections";
-import { ButtonLink, Container } from "@/components/ui";
+import { Container } from "@/components/ui";
 import { ValueArt } from "@/components/value-art";
-import { assetClassesTraded, clientele, contact, mission, partners, values, vision } from "@/content/site";
+import { assetClassesTraded, clientele, mission, partners, values, vision } from "@/content/site";
 import { team } from "@/content/team";
 
 export const metadata: Metadata = {
@@ -168,35 +168,6 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
-        </Container>
-      </section>
-
-      {/* Contact us: image left, details right (risevest.com) */}
-      <section aria-labelledby="about-contact-title">
-        <Container className="grid items-center gap-10 pbe-20 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:gap-16 lg:pbe-28">
-          <div className="about-contact-media" aria-hidden="true">
-            <Image src="/brand/magnacap-shield.png" alt="" width={240} height={240} className="h-auto w-2/5" />
-          </div>
-          <div>
-            <h2 id="about-contact-title" className="text-h2 font-semibold text-ink">Contact us</h2>
-            <address className="mt-6 space-y-4 text-lead not-italic text-muted">
-              <p>Address: {contact.address.lines.join(", ")}.</p>
-              <p>
-                Phone:{" "}
-                {contact.phones.map((phone, i) => (
-                  <span key={phone.tel}>
-                    {i > 0 && ", "}
-                    <a href={`tel:${phone.tel}`} className="tabular whitespace-nowrap text-ink underline underline-offset-4">{phone.display}</a>
-                  </span>
-                ))}
-              </p>
-              <p>
-                Email:{" "}
-                <a href={`mailto:${contact.email}`} className="text-ink underline underline-offset-4">{contact.email}</a>
-              </p>
-            </address>
-            <ButtonLink href="/contact" className="mt-8">Speak to our team</ButtonLink>
-          </div>
         </Container>
       </section>
     </>

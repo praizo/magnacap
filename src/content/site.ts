@@ -20,9 +20,9 @@ export const company = {
 export const contact = {
   email: "info@magnacap.org",
   address: {
-    lines: ["3 Birrel Avenue", "Sabo, Yaba", "Lagos"],
+    lines: ["27 Little Road", "Sabo, Yaba", "Lagos"],
     mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=3+Birrel+Avenue%2C+Sabo%2C+Yaba%2C+Lagos",
+      "https://www.google.com/maps/search/?api=1&query=27+Little+Road%2C+Sabo%2C+Yaba%2C+Lagos",
   },
   phones: [
     { display: "+234 802 241 2162", tel: "+2348022412162" },

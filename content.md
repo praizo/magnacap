@@ -132,7 +132,7 @@ Career
 We are looking to add fresh talents to our team, please send us your resume and cover letter.
 
 Contact us:
-3, Birrel Avenue,
+27, Little Road,
 Sabo Yaba,
 Lagos.
 Phone numbers: +234 802 241 2162, +234 816 064 8707, +234 816 9241740

@@ -100,7 +100,7 @@ export function ButtonLink({
     <>
       <span>{children}</span>
       {arrow && (
-        <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
+        <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none" />
       )}
     </>
   );

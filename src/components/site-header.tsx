@@ -85,7 +85,7 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
       {/* Logo and nav grouped left, one CTA right. Flat at the top of inner pages, a floating frosted panel otherwise. */}
       <div
         data-floating={floating}
-        className="site-header-panel pointer-events-auto relative z-10 flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 transition-[background-color,border-color,backdrop-filter] duration-300 lg:ps-5"
+        className="site-header-panel pointer-events-auto relative isolate z-10 flex h-16 w-full items-center gap-8 rounded-panel border ps-4 pe-2.5 lg:ps-5"
       >
         <Link
           href="/"
@@ -263,7 +263,7 @@ function NavDropdown({ item, active }: { item: NavItemWithChildren; active: bool
           </svg>
         </button>
       </div>
-      <div id={panelId} hidden={!open} className="absolute inset-s-0 top-full pt-2">
+      <div id={panelId} hidden={!open} className="nav-dropdown absolute inset-s-0 top-full pt-2">
         <ul className="w-64 rounded-panel border border-line bg-paper p-1.5">
           {item.children.map((child) => (
             <li key={child.href}>

@@ -1,0 +1,198 @@
+/* A service's offerings: columns on a full-width slate band, split by hairlines. */
+.service-band {
+  background: var(--color-slate-deep);
+  color: var(--color-on-slate);
+}
+.service-band-columns {
+  display: grid;
+  margin-block-start: 3.5rem;
+  border-block-start: 1px solid var(--color-on-slate-line);
+}
+.service-band-columns > li {
+  display: flex;
+  flex-direction: column;
+  padding-block: 2rem 2.5rem;
+  border-block-end: 1px solid var(--color-on-slate-line);
+}
+@media (min-width: 40rem) {
+  .service-band-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+  }
+}
+@media (min-width: 64rem) {
+  .service-band-columns {
+    grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
+    column-gap: 0;
+  }
+  .service-band-columns > li {
+    padding-inline: 1.75rem;
+    border-block-end: 0;
+  }
+  .service-band-columns > li:first-child {
+    padding-inline-start: 0;
+  }
+  .service-band-columns > li:last-child {
+    padding-inline-end: 0;
+  }
+  .service-band-columns > li + li {
+    border-inline-start: 1px solid var(--color-on-slate-line);
+  }
+}
+.service-band-columns[data-count="3"] {
+  --columns: 3;
+}
+.service-band-icon + h3 {
+  margin-block-start: 2rem;
+}
+.service-band-also {
+  margin-block-start: 2.5rem;
+  font-size: 1.0625rem;
+  color: var(--color-on-slate);
+}
+.service-band-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 3rem;
+  aspect-ratio: 1;
+  border-radius: 0.75rem;
+  background: var(--color-slate);
+  color: var(--color-signal);
+}
+.service-band-foot {
+  margin-block-start: auto;
+  padding-block-start: 2rem;
+}
+/* Same height as a logo tile, so the four labels line up across the columns. */
+.service-band-foot > :last-child {
+  display: flex;
+  align-items: center;
+  min-block-size: 3rem;
+}
+/* Official logos sit on small paper tiles so their brand colours read on slate. */
+.service-band-venue {
+  display: grid;
+  place-items: center;
+  min-block-size: 3rem;
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  padding: 0.5rem 0.875rem;
+}
+.service-band-venue > span {
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+}
+
+
+/* Asset classes as quiet pills (shares .svc-pill with the services overview). */
+.svc-pill-teal {
+  border: 1px solid var(--color-line);
+  background: var(--color-mist);
+  color: var(--color-ink);
+}
+
+
+/* Links to the other services: the overview's illustration over its opening line. */
+.other-services {
+  display: grid;
+  gap: 0.75rem;
+  margin-block-start: 3rem;
+}
+/* Phones: a swipe carousel that snaps card by card, the next card peeking in from the edge. */
+@media (max-width: 39.99rem) {
+  .other-services {
+    grid-auto-flow: column;
+    grid-auto-columns: 82%;
+    margin-inline: calc(var(--gutter) * -1);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .other-services::-webkit-scrollbar {
+    display: none;
+  }
+  .other-services > li {
+    scroll-snap-align: start;
+  }
+}
+@media (min-width: 40rem) {
+  .other-services {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 64rem) {
+  .other-services {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.other-service {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  overflow: clip;
+  border: 1px solid var(--color-line);
+  border-radius: 1.25rem;
+  background: var(--color-paper);
+}
+.other-service-art {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: clip;
+  background: var(--svc-panel);
+}
+.other-service-art svg {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  transform-origin: 50% 100%;
+}
+.other-service-body {
+  display: block;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+/* Panel colours match each service's card on the /services overview. */
+.other-service[data-service="brokerage"] {
+  --svc-panel: var(--color-slate);
+  --svc-art-a: oklch(0.6 0.05 283);
+  --svc-art-b: oklch(0.84 0.03 283);
+}
+.other-service[data-service="investment-advisory"] {
+  --svc-panel: var(--color-signal);
+  --svc-art-a: oklch(0.87 0.08 58);
+  --svc-art-b: var(--color-slate-deep);
+}
+.other-service[data-service="custodian-services"] {
+  --svc-panel: oklch(0.56 0.035 283);
+  --svc-art-a: oklch(0.76 0.025 283);
+  --svc-art-b: var(--color-slate-deep);
+}
+.other-service[data-service="trading"] {
+  --svc-panel: oklch(0.24 0.035 282);
+  --svc-art-a: oklch(0.44 0.05 283);
+  --svc-art-b: var(--color-signal);
+}
+.other-service[data-service="research"] {
+  --svc-panel: var(--color-slate-deep);
+  --svc-art-a: oklch(0.56 0.05 283);
+  --svc-art-b: var(--color-on-slate-muted);
+}
+@media (hover: hover) and (pointer: fine) {
+  .other-service:hover {
+    border-color: var(--color-slate);
+  }
+  .other-service:hover .other-service-art svg {
+    scale: 1.04;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .other-service {
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .other-service-art svg {
+    transition: scale 260ms var(--ease-reveal);
+  }
+}

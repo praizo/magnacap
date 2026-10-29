@@ -11,15 +11,6 @@ import { cx } from "./ui";
  */
 const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;
 
-const topics = [
-  "Brokerage",
-  "Investment advisory",
-  "LILY app",
-  "Market reports",
-  "Careers",
-  "Something else",
-] as const;
-
 type Status =
   | { kind: "idle" }
   | { kind: "sending" }
@@ -59,7 +50,7 @@ export function ContactForm() {
       ]
         .filter(Boolean)
         .join("\n");
-      window.location.href = mailto(`Website enquiry: ${data.topic}`, body);
+      window.location.href = mailto("Website enquiry", body);
       setStatus({ kind: "handed-off" });
       return;
     }
@@ -83,7 +74,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} aria-describedby={`${id}-note`}>
+    <form onSubmit={handleSubmit} aria-describedby={endpoint ? `${id}-note` : undefined}>
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <label htmlFor={`${id}-name`} className="text-sm font-medium text-ink">
@@ -110,16 +101,6 @@ export function ContactForm() {
           <input id={`${id}-phone`} name="phone" type="tel" autoComplete="tel" className={fieldClass} />
         </div>
         <div className="sm:col-span-2">
-          <label htmlFor={`${id}-topic`} className="text-sm font-medium text-ink">
-            Topic
-          </label>
-          <select id={`${id}-topic`} name="topic" required defaultValue={topics[0]} className={cx(fieldClass, "appearance-none bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2016%2016%22%20fill=%22none%22%20stroke=%22%234e4f6f%22%20stroke-width=%221.5%22%3E%3Cpath%20d=%22M4%206l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:1rem] bg-[right_1rem_center] bg-no-repeat pr-10")}>
-            {topics.map((topic) => (
-              <option key={topic}>{topic}</option>
-            ))}
-          </select>
-        </div>
-        <div className="sm:col-span-2">
           <label htmlFor={`${id}-message`} className="text-sm font-medium text-ink">
             Message
           </label>
@@ -133,13 +114,13 @@ export function ContactForm() {
           disabled={status.kind === "sending"}
           className="inline-flex items-center gap-3 rounded-control bg-signal px-6 py-3.5 font-semibold text-ink transition-colors hover:bg-signal-hover disabled:opacity-60"
         >
-          {status.kind === "sending" ? "Sending…" : endpoint ? "Send message" : "Compose email"}
+          {status.kind === "sending" ? "Sending…" : "Submit"}
         </button>
-        <p id={`${id}-note`} className="text-sm text-muted">
-          {endpoint
-            ? "We use your details only to respond to your enquiry."
-            : "This opens your email app with your message ready to send to our team."}
-        </p>
+        {endpoint && (
+          <p id={`${id}-note`} className="text-sm text-muted">
+            We use your details only to respond to your enquiry.
+          </p>
+        )}
       </div>
 
       <div role="status" aria-live="polite" className="mt-6">

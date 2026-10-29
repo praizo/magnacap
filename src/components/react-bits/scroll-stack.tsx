@@ -257,7 +257,8 @@ const ScrollStack = ({
     };
 
     const step = (now: number) => {
-      const dt = Math.min(0.05, (now - last) / 1000);
+      // A frame's timestamp can predate the click that started the glide; never step backwards.
+      const dt = Math.min(0.05, Math.max(0, now - last) / 1000);
       last = now;
       if (Math.abs(readScroll() - written) > 2) {
         gliding = false;
@@ -346,7 +347,7 @@ const ScrollStack = ({
       const anchor = slot?.previousElementSibling;
       if (!anchor?.hasAttribute('data-stack-anchor')) return;
       event.preventDefault();
-      history.pushState(null, '', url.hash);
+      if (location.hash !== url.hash) history.pushState(null, '', url.hash);
       cancelAnimationFrame(glide);
       gliding = false;
       const destination = anchor.getBoundingClientRect().top + window.scrollY - 112;
@@ -357,7 +358,8 @@ const ScrollStack = ({
     const observer = new ResizeObserver(schedule);
     observer.observe(root);
     observer.observe(inner);
-    document.addEventListener('click', onAnchor);
+    // Capture runs before next/link, which would otherwise ignore a click on the hash already in the URL.
+    document.addEventListener('click', onAnchor, true);
     motion.addEventListener('change', schedule);
     desktop.addEventListener('change', schedule);
     target.addEventListener('scroll', onScroll, { passive: true });
@@ -374,7 +376,7 @@ const ScrollStack = ({
       cancelAnimationFrame(glide);
       window.clearTimeout(rest);
       observer.disconnect();
-      document.removeEventListener('click', onAnchor);
+      document.removeEventListener('click', onAnchor, true);
       motion.removeEventListener('change', schedule);
       desktop.removeEventListener('change', schedule);
       target.removeEventListener('scroll', onScroll);

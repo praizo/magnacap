@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
 import { PageHeader } from "@/components/sections";
 import { Container, Label } from "@/components/ui";
-import { company, contact } from "@/content/site";
+import { contact } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact MagnaCap at 3 Birrel Avenue, Sabo, Yaba, Lagos. Call +234 802 241 2162 or email info@magnacap.org.",
+    "Contact MagnaCap at 27 Little Road, Sabo, Yaba, Lagos. Call +234 802 241 2162 or email info@magnacap.org.",
   alternates: { canonical: "/contact" },
 };
 
@@ -68,16 +68,6 @@ export default function ContactPage() {
                 <dd className="mt-3">
                   <a href={`mailto:${contact.email}`} className="text-xl text-ink underline-offset-4 hover:underline">
                     {contact.email}
-                  </a>
-                </dd>
-              </div>
-              <div className="border-t border-line py-6">
-                <Label as="dt" className="text-muted">
-                  Website
-                </Label>
-                <dd className="mt-3">
-                  <a href={company.url} className="text-xl text-ink underline-offset-4 hover:underline">
-                    {company.displayUrl}
                   </a>
                 </dd>
               </div>

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckList } from "@/components/check-list";
+import type { ReactNode } from "react";
 import { instrumentIcons } from "@/components/instrument-icons";
-import { InstrumentTabs } from "@/components/instrument-tabs";
-import { PageHeader } from "@/components/sections";
-import { ArrowIcon, Container } from "@/components/ui";
+import { AdvisoryArt, BrokerageArt, CustodyArt, TradingArt, VaultArt } from "@/components/service-cards";
+import { ServiceBand } from "@/components/service-band";
+import { PageHeader, SectionHeading } from "@/components/sections";
+import { ArrowIcon, ButtonLink, Container } from "@/components/ui";
+import { VenueMarks } from "@/components/venue-marks";
 import { advisoryServices, instruments } from "@/content/site";
-import { serviceHref, servicePages, services } from "@/content/services";
+import { serviceHref, servicePages, services, type ServiceSlug } from "@/content/services";
+import "./service-detail.css";
 
 /** Metadata for a dedicated service page. */
 export function serviceMetadata(slug: (typeof servicePages)[number]["slug"]): Metadata {
@@ -18,10 +21,26 @@ export function serviceMetadata(slug: (typeof servicePages)[number]["slug"]): Me
   };
 }
 
+/** The same illustrations the /services overview uses for each service. */
+const serviceArt: Record<ServiceSlug, ReactNode> = {
+  brokerage: BrokerageArt,
+  "investment-advisory": AdvisoryArt,
+  trading: TradingArt,
+  "custodian-services": VaultArt,
+  research: CustodyArt,
+};
+
+/** Advisory offerings with a description of their own; the rest are listed under the band. */
+const describedOfferings = advisoryServices.filter((item) => item.body);
+const otherOfferings = advisoryServices.filter((item) => !item.body);
+
 /** Dedicated page for one service. All copy is verbatim from content.md. */
 export function ServiceDetailPage({ slug }: { slug: (typeof servicePages)[number]["slug"] }) {
   const service = servicePages.find((item) => item.slug === slug)!;
   const others = services.filter((item) => item.slug !== service.slug);
+  const brokerage = service.slug === "brokerage";
+  // The header carries the first sentence; the rest of the introduction opens the page.
+  const [lead, ...rest] = service.intro.split(/(?<=\.)\s+/);
 
   return (
     <>
@@ -29,83 +48,91 @@ export function ServiceDetailPage({ slug }: { slug: (typeof servicePages)[number
         eyebrow={service.group}
         image={{
           src: `/pages/services-${service.slug}.jpg`,
-          alt: service.slug === "brokerage"
+          alt: brokerage
             ? "A Black professional discussing ideas with a colleague in a shared workspace."
             : "A Black woman and a colleague in conversation beside an office window.",
         }}
         title={service.title}
-        lead={<p>{service.intro}</p>}
+        lead={<p>{lead}</p>}
       />
 
-      {/* Highlights: the points named in the service copy */}
-      <section aria-label={`${service.title} at a glance`}>
-        <Container className="py-16 lg:py-24">
-          <div className="service-detail-panel">
-            <p className="text-h3 leading-snug">{service.highlightsTitle}</p>
-            {service.slug === "brokerage" ? (
-              <ul className="flex flex-wrap content-start gap-2">
-                {service.highlights.map((item) => (
-                  <li key={item} className="svc-pill svc-pill-teal">{item}</li>
-                ))}
-              </ul>
-            ) : (
-              <CheckList items={service.highlights} />
-            )}
-          </div>
+      {/* The rest of the introduction beside the service's highlights. */}
+      <section aria-labelledby="highlights-title">
+        <Container className="grid gap-10 py-20 lg:grid-cols-2 lg:gap-16 lg:py-28">
+          <SectionHeading
+            id="highlights-title"
+            eyebrow={brokerage ? "Asset classes" : "What we offer"}
+            title={brokerage ? "Our execution service" : "Our advisory team"}
+            quiet={brokerage ? "covers the following asset classes." : "offers the following."}
+            intro={<p>{rest.join(" ")}</p>}
+          />
+          <ul className="flex flex-wrap content-start gap-2 lg:pt-12">
+            {service.highlights.map((item) => (
+              <li key={item} className="svc-pill svc-pill-teal">{item}</li>
+            ))}
+          </ul>
         </Container>
       </section>
 
-      {/* Service-specific detail */}
-      {service.slug === "brokerage" && (
-        <section aria-labelledby="instruments-title">
-          <Container className="pbe-20 lg:pbe-28">
-            <h2 id="instruments-title" className="text-h2 text-ink">The instruments we cover</h2>
-            <div className="mt-8">
-              <InstrumentTabs items={instruments.map((item) => ({ ...item, icon: instrumentIcons[item.name] }))} />
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {service.slug === "investment-advisory" && (
-        <section aria-labelledby="offerings-title" className="advisory-section">
-          <Container className="py-20 lg:py-28">
-            <h2 id="offerings-title" className="text-h2 text-ink">What our advisors do</h2>
-            <ul className="advisory-list mt-8">
-              {advisoryServices.map((item) =>
-                item.body ? (
-                  <li key={item.title}>
-                    <details className="group">
-                      <summary>
-                        {item.title}
-                        <span aria-hidden="true" className="advisory-toggle" />
-                      </summary>
-                      <p className="max-w-[60ch] pbe-6 text-muted">{item.body}</p>
-                    </details>
-                  </li>
+      {/* Everything the service covers, side by side on the slate band. */}
+      {brokerage ? (
+        <ServiceBand
+          id="instruments-title"
+          eyebrow="Instruments"
+          title="The instruments"
+          quiet="we cover."
+          items={instruments.map((item) => ({
+            name: item.name,
+            body: item.body,
+            icon: instrumentIcons[item.name],
+            foot: <VenueMarks name={item.name} venues={item.venues} />,
+          }))}
+        />
+      ) : (
+        <ServiceBand
+          id="offerings-title"
+          eyebrow="Advisory"
+          title="What our"
+          quiet="advisors do."
+          items={describedOfferings.map((item) => ({ name: item.title, body: item.body! }))}
+        >
+          <p className="service-band-also">
+            <span className="text-on-slate-muted">Also from our advisors:</span>{" "}
+            {otherOfferings.map((item, i) => (
+              <span key={item.title}>
+                {i > 0 && " and "}
+                {item.title === "Research" ? (
+                  <Link href="/insights" className="underline decoration-signal underline-offset-4 hover:text-signal">
+                    {item.title}
+                  </Link>
                 ) : (
-                  <li key={item.title}>
-                    <p className="advisory-static">{item.title}</p>
-                  </li>
-                ),
-              )}
-            </ul>
-          </Container>
-        </section>
+                  item.title
+                )}
+              </span>
+            ))}
+            .
+          </p>
+        </ServiceBand>
       )}
 
-      {/* The other services */}
+      {/* The other services, each with its overview illustration and opening line. */}
       <section aria-labelledby="other-services-title" className="border-t border-line">
-        <Container className="py-16 lg:py-24">
-          <h2 id="other-services-title" className="text-h3 text-ink">Explore our other services</h2>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Container className="py-20 lg:py-28">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeading id="other-services-title" eyebrow="Our services" title="Explore our" quiet="other services." />
+            <ButtonLink href="/services" variant="text">View all services</ButtonLink>
+          </div>
+          <ul className="other-services" aria-label="Other services">
             {others.map((item) => (
               <li key={item.slug}>
-                <Link href={serviceHref(item.slug)} className="other-service-link group">
-                  <span className="font-mono text-xs uppercase tracking-[0.08em] text-muted">{item.group}</span>
-                  <span className="mt-6 flex items-center justify-between gap-3 text-xl font-medium tracking-[-0.015em] text-ink">
-                    {item.title}
-                    <ArrowIcon className="transition-transform group-hover:translate-x-0.5" />
+                <Link href={serviceHref(item.slug)} className="other-service group" data-service={item.slug}>
+                  <span className="other-service-art" aria-hidden="true">{serviceArt[item.slug]}</span>
+                  <span className="other-service-body">
+                    <span className="flex items-center justify-between gap-3 text-xl font-medium tracking-[-0.015em] text-ink">
+                      {item.title}
+                      <ArrowIcon className="transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" />
+                    </span>
+                    <span className="mt-2 block text-[0.9375rem] leading-relaxed text-muted">{item.intro.split(/(?<=\.)\s+/)[0]}</span>
                   </span>
                 </Link>
               </li>

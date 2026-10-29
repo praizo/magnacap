@@ -139,7 +139,7 @@ export function ServiceCards() {
               <span className="svc-body">{service.body}</span>
               <span className="svc-cta">
                 {service.cta}
-                <ArrowIcon className="transition-transform group-hover:translate-x-0.5" />
+                <ArrowIcon className="transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" />
               </span>
             </span>
             <span className="svc-art" aria-hidden="true">
