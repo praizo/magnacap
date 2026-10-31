@@ -6,7 +6,7 @@ import { ClienteleRow } from "@/components/clientele-grid";
 import { PageHeader } from "@/components/sections";
 import { Container } from "@/components/ui";
 import { ValueArt } from "@/components/value-art";
-import { assetClassesTraded, clientele, mission, partners, values, vision } from "@/content/site";
+import { assetClassesTraded, clientele, mission, partners, vision } from "@/content/site";
 import { team } from "@/content/team";
 
 export const metadata: Metadata = {
@@ -24,14 +24,23 @@ const facts = [
   { value: partners.marketInfrastructure.length + partners.institutions.length, label: "Partners" },
 ];
 
-/** One line per value, each taken from content.md's MagnaCap Advantage and About text. */
-const valueNotes: Record<(typeof values)[number], string> = {
-  Integrity: "Our traders ensure the utmost discretion our clients deserve in all their dealings with us.",
-  Excellence: "Speedy execution of mandates at the best price.",
-  "Client centricity": "Two-way quotes on most instruments, helping our clients with price discovery.",
-  Accountability: "Reliable and trusted by all counterparties and stakeholders.",
-  Competence: "An expert team of advisors with actionable market insight and periodic reports.",
-};
+/** What drives us, in the client's own words. */
+const drivers = [
+  { title: "Efficient trading", body: "We ensure speedy execution of mandates at the best price." },
+  { title: "Strong reputation", body: "We are reliable and trusted by all counterparties and stakeholders." },
+  {
+    title: "Market insight",
+    body: "Our brokers provide actionable market insights to our clients, we also circulate periodic market reports.",
+  },
+  {
+    title: "Confidentiality and anonymity",
+    body: "Our traders ensure utmost discretion that our clients deserve in all their dealings with us.",
+  },
+  {
+    title: "Price discovery",
+    body: "We provide two-way quotes on most instruments, thereby helping our clients with price discovery.",
+  },
+];
 
 const iconProps = { viewBox: "0 0 24 24", className: "size-5", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
@@ -61,8 +70,8 @@ export default function AboutPage() {
         quiet="and focused on quality of service."
         lead={
           <p>
-            MagnaCap Limited is an SEC-licensed financial brokerage and investment advisory
-            company. We deploy innovative strategies so that our clients get maximum value.
+            MagnaCap Limited is a SEC-licensed financial brokerage and investment advisory
+            company. We deploy innovative strategies to maximize value for our clients.
           </p>
         }
         overlay={
@@ -134,15 +143,15 @@ export default function AboutPage() {
           <div className="mx-auto max-w-2xl text-center">
             <h2 id="values-title" className="text-h2 text-ink">What drives us</h2>
             <p className="mt-4 text-lead text-muted">
-              Our core values guide every mandate we take on and every relationship we keep.
+              Five commitments shape every mandate we take on and every relationship we keep.
             </p>
           </div>
           <ul className="values-grid">
-            {values.map((value, i) => (
-              <li key={value}>
+            {drivers.map((driver, i) => (
+              <li key={driver.title}>
                 <div className="values-art"><ValueArt index={i} /></div>
-                <h3 className="mt-5 text-h3 text-ink">{value}</h3>
-                <p className="mt-2 max-w-[36ch] text-muted">{valueNotes[value]}</p>
+                <h3 className="mt-5 text-h3 text-ink">{driver.title}</h3>
+                <p className="mt-2 max-w-[36ch] text-muted">{driver.body}</p>
               </li>
             ))}
           </ul>

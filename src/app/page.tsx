@@ -60,7 +60,7 @@ export default function HomePage() {
           <div>
             <Label className="text-muted">About MagnaCap</Label>
             <h2 id="firm-title" className="firm-title mbs-5">
-              MagnaCap Limited is an SEC-licensed brokerage and{" "}
+              MagnaCap Limited is a SEC-licensed brokerage and{" "}
               <span className="text-quiet">investment advisory company.</span>
             </h2>
             <p className="mbs-6 max-w-[46ch] text-lead text-muted">
