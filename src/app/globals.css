@@ -1149,17 +1149,26 @@ button:active {
 }
 
 /* About: meet the team, after risevest.com. */
+/* Flex-wrap, not grid, so a short last row centres instead of hugging the left. */
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem 1rem;
+  --cols: 2;
+  --gap-x: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem var(--gap-x);
   margin-block-start: 3rem;
 }
 @media (min-width: 48rem) {
   .team-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 2.5rem 1.5rem;
+    --cols: 4;
+    --gap-x: 1.5rem;
+    row-gap: 2.5rem;
   }
+}
+.team-grid > li {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap-x)) / var(--cols));
+  min-inline-size: 0;
 }
 .team-card {
   border: 1px solid var(--color-line);
@@ -1175,15 +1184,12 @@ button:active {
   aspect-ratio: 1;
   border-radius: 0.75rem;
 }
-.team-silhouette {
+.team-avatar {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-}
-.team-silhouette .brand-emblem {
-  inline-size: 42%;
-  opacity: 0.5;
+  inline-size: 100%;
+  block-size: 100%;
+  fill: oklch(1 0 0 / 0.7);
 }
 
 /* Footer social links: icon plus name. */

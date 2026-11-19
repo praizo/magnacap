@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { BrandEmblem } from "@/components/brand-emblem";
 import { ClienteleRow } from "@/components/clientele-grid";
 import { PageHeader } from "@/components/sections";
 import { Container } from "@/components/ui";
@@ -56,6 +55,16 @@ const purpose: { title: string; body: string; icon: ReactNode }[] = [
     icon: <svg {...iconProps}><circle cx="12" cy="12" r="8.25" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="0.75" fill="currentColor" /></svg>,
   },
 ];
+
+/** Head-and-shoulders placeholder until a member's headshot is supplied. */
+function AvatarPlaceholder() {
+  return (
+    <svg className="team-avatar" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="38" r="17" />
+      <path d="M14 100c0-21 16-35 36-35s36 14 36 35z" />
+    </svg>
+  );
+}
 
 const tileTints = ["oklch(0.9 0.04 283)", "oklch(0.92 0.06 60)", "oklch(0.9 0.03 250)", "oklch(0.91 0.05 40)"];
 
@@ -164,12 +173,12 @@ export default function AboutPage() {
           <h2 id="team-title" className="text-center text-h2 text-ink">Meet the team</h2>
           <ul className="team-grid">
             {team.map((member, i) => (
-              <li key={i} className="team-card">
+              <li key={member.name} className="team-card">
                 <div className="team-photo" style={{ background: tileTints[i % tileTints.length] }}>
                   {member.photo ? (
                     <Image src={member.photo} alt={member.name} fill sizes="(min-width: 64rem) 16rem, 45vw" className="object-cover" />
                   ) : (
-                    <span className="team-silhouette" aria-hidden="true"><BrandEmblem /></span>
+                    <AvatarPlaceholder />
                   )}
                 </div>
                 <p className="mt-4 font-medium text-ink">{member.name}</p>
