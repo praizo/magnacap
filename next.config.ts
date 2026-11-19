@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   // otherwise the page renders but never hydrates, so menus and forms don't respond.
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
   partialPrefetching: true,
+  experimental: {
+    // Lets `next upgrade --agent` apply security patches by default.
+    agentUpgrade: "security",
+  },
   turbopack: {
     rules: {
       "*.css": {
