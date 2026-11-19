@@ -1157,7 +1157,7 @@ button:active {
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem var(--gap-x);
-  margin-block-start: 3rem;
+  margin-block-start: 1.5rem;
 }
 @media (min-width: 48rem) {
   .team-grid {

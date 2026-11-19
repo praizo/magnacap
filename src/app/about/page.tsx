@@ -3,10 +3,10 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { ClienteleRow } from "@/components/clientele-grid";
 import { PageHeader } from "@/components/sections";
-import { Container } from "@/components/ui";
+import { Container, Label } from "@/components/ui";
 import { ValueArt } from "@/components/value-art";
 import { assetClassesTraded, clientele, mission, partners, vision } from "@/content/site";
-import { team } from "@/content/team";
+import { leads, staff, type TeamMember } from "@/content/team";
 
 export const metadata: Metadata = {
   title: "About",
@@ -63,6 +63,32 @@ function AvatarPlaceholder() {
       <circle cx="50" cy="38" r="17" />
       <path d="M14 100c0-21 16-35 36-35s36 14 36 35z" />
     </svg>
+  );
+}
+
+/** One titled group of team cards; `tintOffset` keeps tile colours cycling across groups. */
+function TeamGroup({ id, title, members, tintOffset = 0 }: { id: string; title: string; members: TeamMember[]; tintOffset?: number }) {
+  return (
+    <div role="group" aria-labelledby={id}>
+      <Label as="h3" className="text-center text-muted">
+        <span id={id}>{title}</span>
+      </Label>
+      <ul className="team-grid">
+        {members.map((member, i) => (
+          <li key={member.name} className="team-card">
+            <div className="team-photo" style={{ background: tileTints[(i + tintOffset) % tileTints.length] }}>
+              {member.photo ? (
+                <Image src={member.photo} alt={member.name} fill sizes="(min-width: 64rem) 16rem, 45vw" className="object-cover" />
+              ) : (
+                <AvatarPlaceholder />
+              )}
+            </div>
+            <p className="mt-4 font-medium text-ink">{member.name}</p>
+            <p className="mt-1 text-sm text-muted">{member.role}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -171,21 +197,10 @@ export default function AboutPage() {
       <section aria-labelledby="team-title">
         <Container className="py-20 lg:py-28">
           <h2 id="team-title" className="text-center text-h2 text-ink">Meet the team</h2>
-          <ul className="team-grid">
-            {team.map((member, i) => (
-              <li key={member.name} className="team-card">
-                <div className="team-photo" style={{ background: tileTints[i % tileTints.length] }}>
-                  {member.photo ? (
-                    <Image src={member.photo} alt={member.name} fill sizes="(min-width: 64rem) 16rem, 45vw" className="object-cover" />
-                  ) : (
-                    <AvatarPlaceholder />
-                  )}
-                </div>
-                <p className="mt-4 font-medium text-ink">{member.name}</p>
-                <p className="mt-1 text-sm text-muted">{member.role}</p>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-12 grid gap-14 lg:gap-16">
+            <TeamGroup id="team-leads" title="Leadership" members={leads} />
+            <TeamGroup id="team-staff" title="Our people" members={staff} tintOffset={leads.length} />
+          </div>
         </Container>
       </section>
     </>
