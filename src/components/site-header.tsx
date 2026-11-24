@@ -12,7 +12,6 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDetailsElement>(null);
   const menuId = useId();
-  const isHome = pathname === "/";
 
   // Inner pages start with a flat bar and only float (frosted panel) once the
   // page scrolls; home always floats over the hero photograph.
@@ -22,8 +21,10 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  // A solid shared surface keeps the landing-menu appearance identical over every page.
-  const floating = isHome || scrolled || open;
+  // Home always floats too, but that is keyed in CSS on `.home-hero` (see globals.css):
+  // the pathname isn't reliably "/" when the home route is prerendered on Vercel, and a
+  // wrong server className is never patched during production hydration.
+  const floating = scrolled || open;
 
   const closeMenu = () => {
     if (menuRef.current) menuRef.current.open = false;
@@ -69,13 +70,9 @@ export function SiteHeader({ logo }: { logo: ReactNode }) {
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header
-      className={cx(
-        "pointer-events-none sticky top-0 z-40 h-24 px-(--gutter) pbs-4 lg:px-[clamp(1rem,5vw,4.5rem)]",
-        // Home: overlay the full-bleed hero photograph; elsewhere the bar keeps its own space.
-        isHome && "-mbe-24",
-      )}
-    >
+    // Home overlays the full-bleed hero photograph via `.site-header` in globals.css;
+    // elsewhere the bar keeps its own space.
+    <header className="site-header pointer-events-none sticky top-0 z-40 h-24 px-(--gutter) pbs-4 lg:px-[clamp(1rem,5vw,4.5rem)]">
       <a
         href="#main"
         className="fixed left-4 top-3 z-50 -translate-y-24 bg-ink px-4 py-2 text-sm text-paper focus:translate-y-0"

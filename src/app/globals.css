@@ -156,10 +156,17 @@
     opacity: 1;
   }
 }
-.site-header-panel[data-floating="true"] {
+/* Home is detected from its hero, not the pathname: the prerendered home route on
+   Vercel doesn't see "/" and production hydration never corrects a className. */
+:root:has(.home-hero) .site-header {
+  margin-block-end: -6rem; /* overlay the full-bleed hero photograph */
+}
+.site-header-panel[data-floating="true"],
+:root:has(.home-hero) .site-header-panel {
   border-color: color-mix(in oklch, var(--color-line) 70%, transparent);
 }
-.site-header-panel[data-floating="true"]::before {
+.site-header-panel[data-floating="true"]::before,
+:root:has(.home-hero) .site-header-panel::before {
   opacity: 1;
 }
 @media (prefers-reduced-motion: no-preference) {
