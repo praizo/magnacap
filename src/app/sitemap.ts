@@ -12,3 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: item.href === "/" ? 1 : 0.7,
   }));
 }
+
+// Generated once at build time, so it also works in the static export (`npm run build:static`).
+export const dynamic = "force-static";

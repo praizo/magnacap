@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { cacheLife } from "next/cache";
 import { company, contact, lily, navigation, socials } from "@/content/site";
 import shield from "../../public/brand/magnacap-shield.png";
 import { AppleIcon, PlayIcon } from "./lily";
@@ -8,9 +7,8 @@ import { NewsletterForm } from "./newsletter-form";
 import { SocialIcons } from "./social-icons";
 import { Container, externalLinkProps } from "./ui";
 
-async function CopyrightYear() {
-  "use cache";
-  cacheLife("days");
+// Rendered at build time, so the year rolls over with the first deploy of a new year.
+function CopyrightYear() {
   return <>{new Date().getFullYear()}</>;
 }
 

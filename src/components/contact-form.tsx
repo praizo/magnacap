@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { contact, mailto } from "@/content/site";
-import { cx } from "./ui";
+import { cx, Honeypot } from "./ui";
 
 /**
  * When NEXT_PUBLIC_CONTACT_ENDPOINT is set, the form POSTs JSON there and only
@@ -107,6 +107,8 @@ export function ContactForm() {
           <textarea id={`${id}-message`} name="message" required rows={6} className={cx(fieldClass, "resize-y")} />
         </div>
       </div>
+
+      <Honeypot />
 
       <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
         <button

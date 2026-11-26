@@ -7,3 +7,6 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: new URL("/sitemap.xml", company.url).toString(),
   };
 }
+
+// Generated once at build time, so it also works in the static export (`npm run build:static`).
+export const dynamic = "force-static";

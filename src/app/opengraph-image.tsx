@@ -36,3 +36,6 @@ export default function OpengraphImage() {
     size,
   );
 }
+
+// Generated once at build time, so it also works in the static export (`npm run build:static`).
+export const dynamic = "force-static";

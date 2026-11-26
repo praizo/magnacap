@@ -123,3 +123,18 @@ export function ButtonLink({
 export function indexLabel(i: number) {
   return String(i + 1).padStart(2, "0");
 }
+
+/**
+ * Spam trap for the forms: hidden from people and assistive tech, so only bots
+ * fill it. The cPanel mail endpoints (public/*.php) drop any submission that does.
+ */
+export function Honeypot() {
+  return (
+    <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+      <label>
+        Website
+        <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </label>
+    </div>
+  );
+}

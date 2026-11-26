@@ -1,0 +1,20 @@
+# Apache settings for the static export (`npm run build:static` -> upload `out/`).
+# Ignored on Vercel.
+ErrorDocument 404 /404.html
+Options -Indexes
+
+# Shared PHP helpers for the form endpoints are not endpoints themselves.
+<FilesMatch "^_.*\.php$">
+  Require all denied
+</FilesMatch>
+
+<Files "opengraph-image">
+  ForceType image/png
+</Files>
+
+# Hashed build assets never change; let browsers cache them for a year.
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+</IfModule>

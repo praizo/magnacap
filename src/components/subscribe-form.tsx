@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { contact, mailto, riskWarning } from "@/content/site";
-import { ArrowIcon } from "./ui";
+import { ArrowIcon, Honeypot } from "./ui";
 
 /**
  * Market-report subscription. When NEXT_PUBLIC_SUBSCRIBE_ENDPOINT is set, the
@@ -106,6 +106,8 @@ export function SubscribeForm() {
           <input ref={emailRef} id={`${id}-email`} name="email" type="email" required autoComplete="email" className={fieldClass} />
         </div>
       </div>
+
+      <Honeypot />
 
       <label className="mt-6 flex items-start gap-3 text-sm text-ink">
         <input

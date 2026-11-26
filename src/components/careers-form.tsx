@@ -2,7 +2,7 @@
 
 import { useId, useState, type FormEvent } from "react";
 import { contact, mailto } from "@/content/site";
-import { ArrowIcon, cx } from "./ui";
+import { ArrowIcon, cx, Honeypot } from "./ui";
 
 /**
  * Career application. When NEXT_PUBLIC_CAREERS_ENDPOINT is set, the form POSTs
@@ -135,6 +135,8 @@ export function CareersForm() {
           />
         </div>
       </div>
+
+      <Honeypot />
 
       <label className="mt-6 flex items-start gap-3 text-sm text-ink">
         <input type="checkbox" name="consent" value="yes" required className="mt-0.5 size-4 flex-none accent-slate" />
